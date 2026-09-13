@@ -23,13 +23,13 @@ public class FichaEntrenamiento {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_cliente", nullable = false, 
-                foreignKey = @ForeignKey(name = "fk_fichas_miembro"))
+                foreignKey = @ForeignKey(name = "fk_fichas_cliente"))
     private Cliente cliente;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_entrenador", nullable = false, 
                 foreignKey = @ForeignKey(name = "fk_fichas_entrenador"))
-    private Usuario entrenador; // Apunta a tb_usuario
+    private Usuario entrenador;
 
     @Column(name = "fecha_creacion", nullable = false)
     private LocalDate fechaCreacion = LocalDate.now();

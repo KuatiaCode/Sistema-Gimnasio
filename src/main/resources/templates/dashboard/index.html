@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Gestión V1.0</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <!-- MENU LATERAL -->
+    <aside class="barra-lateral">
+        <div class="caja-barra-lateral">
+            <!-- CAJA TITULO LOGO -->
+            <div class="caja-logo">
+                <div class="caja-icono">
+                    <img>
+                </div>
+                <div>
+                    <h1>Oficina del Cuerpo</h1>
+                </div>
+            </div>
+            <!-- CATEGORIAS -->
+            <ul class="lista-categorias">
+                <li>
+                    <a href="/dashboard" class="enlace-principal">
+                        <span>Dashboard</span> 
+                    </a>
+                </li>
+                <li>
+                    <a href="/clientes" class="enlace-categoria">
+                        <span>Miembros</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/pagos" class="enlace-categoria">
+                        <span>Pagos</span>    
+                    </a>
+                </li>
+                <li>
+                    <a href="/fichas-entrenamiento" class="enlace-categoria">
+                        <span>Ficha Entrenamiento</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/fichas-medica" class="enlace-categoria">
+                        <span>Fichas Médicas</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/reportes" class="enlace-categoria">
+                        <span>Reportes</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/configuracion" class="enlace-categoria">
+                        <span>Configuración</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <!-- PERFILES DE USUARIO -->
+        <div class="barra-usuario">
+            <div class="caja-usuario">
+                <div>admin</div>
+                <div>Administrador</div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="contenido-principal"> 
+        <h2>Panel Principal</h2> 
+        <p>Bienvenido al sistema de gestión Oficina del Cuerpo</p> 
+    </main>
+
+</body>
+</html>

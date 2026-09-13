@@ -24,13 +24,13 @@ public class MembresiaCliente {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_cliente", nullable = false, 
-                foreignKey = @ForeignKey(name = "fk_membresias_miembro"))
+                foreignKey = @ForeignKey(name = "fk_membresias_cliente"))
     private Cliente cliente;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_plan", nullable = false, 
                 foreignKey = @ForeignKey(name = "fk_membresias_plan"))
-    private PlanesMembresia planesMembresia;
+    private PlanesMembresia plan;
 
     @Column(name = "fecha_inicio", nullable = false)
     private LocalDate fechaInicio;

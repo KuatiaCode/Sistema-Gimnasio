@@ -24,13 +24,13 @@ public class FichaMedica {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_cliente", nullable = false, 
-                foreignKey = @ForeignKey(name = "fk_evaluaciones_miembro"))
+                foreignKey = @ForeignKey(name = "fk_evaluaciones_cliente"))
     private Cliente cliente;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_entrenador", nullable = false, 
                 foreignKey = @ForeignKey(name = "fk_evaluaciones_entrenador"))
-    private Usuario entrenador; // Apunta a tb_usuario
+    private Usuario entrenador;
 
     @Column(name = "fecha", nullable = false)
     private LocalDate fecha = LocalDate.now();

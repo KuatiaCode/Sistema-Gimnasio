@@ -1,10 +1,15 @@
 package system_gym.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -15,6 +20,10 @@ public class Roles {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_rol")
     private Integer id;
+
+    @OneToMany(mappedBy = "roles", fetch = FetchType.LAZY)
+    private List<Usuario> usuarios = new ArrayList<>();
+        
     @Column(name = "nombre", length = 50, nullable = false)
     private String nombre;
     @Column(name = "descripcion", length = 200, nullable = false)

@@ -24,10 +24,9 @@ public class Pago {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_cliente", nullable = false, 
-                foreignKey = @ForeignKey(name = "fk_pagos_miembro"))
+                foreignKey = @ForeignKey(name = "fk_pagos_cliente"))
     private Cliente cliente;
 
-    // Nullable para soportar la integridad ON DELETE SET NULL del script corregido
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_membresia", nullable = true, 
                 foreignKey = @ForeignKey(name = "fk_pagos_membresia"))

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:replace="~{fragments/head :: head('Fichas de Entrenamiento')}"></head>
+<body>
+<nav th:replace="~{fragments/nav :: nav}"></nav>
+<main class="container">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="h3">Fichas de entrenamiento</h1>
+        <a class="btn btn-primary" th:href="@{/fichas-entrenamiento/nuevo}">Nueva ficha</a>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped table-hover align-middle">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Cliente</th>
+                    <th>Entrenador</th>
+                    <th>Fecha</th>
+                    <th>Objetivo</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="ficha : ${fichas}">
+                    <td th:text="${ficha.id}">1</td>
+                    <td th:text="${ficha.cliente != null ? ficha.cliente.nombre + ' ' + ficha.cliente.apellido : ''}">Cliente</td>
+                    <td th:text="${ficha.entrenador != null ? ficha.entrenador.usuario : ''}">Entrenador</td>
+                    <td th:text="${ficha.fechaCreacion}">Fecha</td>
+                    <td th:text="${ficha.objetivo}">Objetivo</td>
+                    <td>
+                        <a class="btn btn-sm btn-outline-primary"
+                           th:href="@{/fichas-entrenamiento/{id}/editar(id=${ficha.id})}">Editar</a>
+                        <form class="d-inline" th:action="@{/fichas-entrenamiento/{id}/eliminar(id=${ficha.id})}"
+                              method="post" onsubmit="return confirm('¿Eliminar esta ficha?');">
+                            <button class="btn btn-sm btn-outline-danger" type="submit">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <p class="text-muted" th:if="${#lists.isEmpty(fichas)}">No hay fichas de entrenamiento registradas.</p>
+</main>
+</body>
+</html>

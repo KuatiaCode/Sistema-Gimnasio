@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:replace="~{fragments/head :: head('Membresías')}"></head>
+<body>
+<nav th:replace="~{fragments/nav :: nav}"></nav>
+<main class="container">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="h3">Membresías</h1>
+        <a class="btn btn-primary" th:href="@{/membresias/nuevo}">Nueva membresía</a>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped table-hover align-middle">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Cliente</th>
+                    <th>Plan</th>
+                    <th>Inicio</th>
+                    <th>Vencimiento</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="membresia : ${membresias}">
+                    <td th:text="${membresia.id}">1</td>
+                    <td th:text="${membresia.cliente != null ? membresia.cliente.nombre + ' ' + membresia.cliente.apellido : ''}">Cliente</td>
+                    <td th:text="${membresia.planesMembresia != null ? membresia.planesMembresia.nombre : ''}">Plan</td>
+                    <td th:text="${membresia.fechaInicio}">Inicio</td>
+                    <td th:text="${membresia.fechaVencimiento}">Vencimiento</td>
+                    <td th:text="${membresia.estado == 1 ? 'Activa' : (membresia.estado == 2 ? 'Vencida' : 'Congelada')}">Activa</td>
+                    <td>
+                        <a class="btn btn-sm btn-outline-primary"
+                           th:href="@{/membresias/{id}/editar(id=${membresia.id})}">Editar</a>
+                        <form class="d-inline" th:action="@{/membresias/{id}/eliminar(id=${membresia.id})}"
+                              method="post" onsubmit="return confirm('¿Eliminar esta membresía?');">
+                            <button class="btn btn-sm btn-outline-danger" type="submit">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <p class="text-muted" th:if="${#lists.isEmpty(membresias)}">No hay membresías registradas.</p>
+</main>
+</body>
+</html>

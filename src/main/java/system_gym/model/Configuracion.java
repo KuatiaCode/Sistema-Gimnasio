@@ -50,10 +50,10 @@ public class Configuracion {
         this.correo = correo;
         this.ruc = ruc;
     }
-    public Integer getid() {
+    public Integer getId() {
         return id;
     }
-    public void setid(Integer id) {
+    public void setId(Integer id) {
         this.id = id;
     }
     public String getNombre() {

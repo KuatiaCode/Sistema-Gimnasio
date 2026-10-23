@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:replace="~{fragments/head :: head('Configuración')}"></head>
+<body>
+<nav th:replace="~{fragments/nav :: nav}"></nav>
+<main class="container">
+    <h1 class="h3 mb-3" th:text="${configuracion.id == null ? 'Nueva configuración' : 'Editar configuración'}">Configuración</h1>
+    <form class="row g-3" th:object="${configuracion}" th:action="@{/configuracion}" method="post">
+        <input type="hidden" th:field="*{id}">
+        <div class="col-md-6">
+            <label class="form-label" for="nombre">Nombre</label>
+            <input class="form-control" id="nombre" type="text" th:field="*{nombre}" required>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label" for="ruc">RUC</label>
+            <input class="form-control" id="ruc" type="text" th:field="*{ruc}" required>
+        </div>
+        <div class="col-12">
+            <label class="form-label" for="direccion">Dirección</label>
+            <input class="form-control" id="direccion" type="text" th:field="*{direccion}" required>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label" for="telefono">Teléfono</label>
+            <input class="form-control" id="telefono" type="text" th:field="*{telefono}" required>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label" for="correo">Correo</label>
+            <input class="form-control" id="correo" type="email" th:field="*{correo}" required>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label" for="capacidadMaxima">Capacidad máxima</label>
+            <input class="form-control" id="capacidadMaxima" type="number" min="0"
+                   th:field="*{capacidadMaxima}" required>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label" for="tiempoSesion">Tiempo de sesión (min)</label>
+            <input class="form-control" id="tiempoSesion" type="number" min="1"
+                   th:field="*{tiempoSesion}" required>
+        </div>
+        <div class="col-12">
+            <button class="btn btn-primary" type="submit">Guardar</button>
+            <a class="btn btn-secondary" th:href="@{/configuracion}">Cancelar</a>
+        </div>
+    </form>
+</main>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:replace="~{fragments/head :: head('Usuario')}"></head>
+<body>
+<nav th:replace="~{fragments/nav :: nav}"></nav>
+<main class="container">
+    <h1 class="h3 mb-3" th:text="${usuarioForm.id == null ? 'Nuevo usuario' : 'Editar usuario'}">Usuario</h1>
+    <form class="row g-3" th:object="${usuarioForm}" th:action="@{/usuarios}" method="post">
+        <input type="hidden" th:field="*{id}">
+        <div class="col-md-6">
+            <label class="form-label" for="usuario">Usuario</label>
+            <input class="form-control" id="usuario" type="text" th:field="*{usuario}" required>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label" for="correo">Correo</label>
+            <input class="form-control" id="correo" type="email" th:field="*{correo}" required>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label" for="passwordHash">Contraseña (hash)</label>
+            <input class="form-control" id="passwordHash" type="text" th:field="*{passwordHash}" required>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label" for="rolesId">Rol</label>
+            <select class="form-select" id="rolesId" name="rolesId" required>
+                <option th:each="rol : ${roles}" th:value="${rol.id}" th:text="${rol.nombre}"
+                        th:selected="${usuarioForm.roles != null and usuarioForm.roles.id == rol.id}"></option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label class="form-label" for="intentosFallidos">Intentos fallidos</label>
+            <input class="form-control" id="intentosFallidos" type="number" min="0"
+                   th:field="*{intentosFallidos}" required>
+        </div>
+        <div class="col-md-3 d-flex align-items-end">
+            <div class="form-check">
+                <input class="form-check-input" id="dosPasosActivo" type="checkbox" th:field="*{dosPasosActivo}">
+                <label class="form-check-label" for="dosPasosActivo">Dos pasos activo</label>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <label class="form-label" for="bloqueadoHasta">Bloqueado hasta</label>
+            <input class="form-control" id="bloqueadoHasta" type="datetime-local" th:field="*{bloqueadoHasta}">
+        </div>
+        <div class="col-md-3">
+            <label class="form-label" for="ultimoAcceso">Último acceso</label>
+            <input class="form-control" id="ultimoAcceso" type="datetime-local" th:field="*{ultimoAcceso}">
+        </div>
+        <div class="col-12">
+            <button class="btn btn-primary" type="submit">Guardar</button>
+            <a class="btn btn-secondary" th:href="@{/usuarios}">Cancelar</a>
+        </div>
+    </form>
+</main>
+</body>
+</html>

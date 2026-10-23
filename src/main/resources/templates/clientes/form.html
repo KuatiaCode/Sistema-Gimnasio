@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:replace="~{fragments/head :: head('Cliente')}"></head>
+<body>
+<nav th:replace="~{fragments/nav :: nav}"></nav>
+<main class="container">
+    <h1 class="h3 mb-3" th:text="${cliente.id == null ? 'Nuevo cliente' : 'Editar cliente'}">Cliente</h1>
+    <form class="row g-3" th:object="${cliente}" th:action="@{/clientes}" method="post">
+        <input type="hidden" th:field="*{id}">
+        <input type="hidden" th:field="*{fotografia}">
+        <div class="col-md-6">
+            <label class="form-label" for="nombre">Nombre</label>
+            <input class="form-control" id="nombre" type="text" th:field="*{nombre}" required>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label" for="apellido">Apellido</label>
+            <input class="form-control" id="apellido" type="text" th:field="*{apellido}" required>
+        </div>
+        <div class="col-md-4">
+            <label class="form-label" for="documento">Documento</label>
+            <input class="form-control" id="documento" type="text" th:field="*{documento}" required>
+        </div>
+        <div class="col-md-4">
+            <label class="form-label" for="telefono">Teléfono</label>
+            <input class="form-control" id="telefono" type="text" th:field="*{telefono}" required>
+        </div>
+        <div class="col-md-4">
+            <label class="form-label" for="correo">Correo</label>
+            <input class="form-control" id="correo" type="email" th:field="*{correo}" required>
+        </div>
+        <div class="col-md-4">
+            <label class="form-label" for="fechaRegistro">Fecha de registro</label>
+            <input class="form-control" id="fechaRegistro" type="date" th:field="*{fechaRegistro}" required>
+        </div>
+        <div class="col-md-4">
+            <label class="form-label" for="sexo">Sexo</label>
+            <select class="form-select" id="sexo" th:field="*{sexo}" required>
+                <option value="0">Masculino</option>
+                <option value="1">Femenino</option>
+                <option value="2">Otro</option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <label class="form-label" for="ciudad">Ciudad</label>
+            <input class="form-control" id="ciudad" type="text" th:field="*{ciudad}">
+        </div>
+        <div class="col-12">
+            <label class="form-label" for="direccion">Dirección</label>
+            <input class="form-control" id="direccion" type="text" th:field="*{direccion}" required>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label" for="contactoEmergencia">Contacto de emergencia</label>
+            <input class="form-control" id="contactoEmergencia" type="text" th:field="*{contactoEmergencia}">
+        </div>
+        <div class="col-md-6">
+            <label class="form-label" for="telefonoEmergencia">Teléfono de emergencia</label>
+            <input class="form-control" id="telefonoEmergencia" type="text" th:field="*{telefonoEmergencia}">
+        </div>
+        <div class="col-md-6">
+            <label class="form-label" for="ocupacion">Ocupación</label>
+            <input class="form-control" id="ocupacion" type="text" th:field="*{ocupacion}">
+        </div>
+        <div class="col-12">
+            <label class="form-label" for="observacion">Observación</label>
+            <textarea class="form-control" id="observacion" rows="3" th:field="*{observacion}"></textarea>
+        </div>
+        <div class="col-12">
+            <button class="btn btn-primary" type="submit">Guardar</button>
+            <a class="btn btn-secondary" th:href="@{/clientes}">Cancelar</a>
+        </div>
+    </form>
+</main>
+</body>
+</html>

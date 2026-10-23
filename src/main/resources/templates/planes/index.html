@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:replace="~{fragments/head :: head('Planes')}"></head>
+<body>
+<nav th:replace="~{fragments/nav :: nav}"></nav>
+<main class="container">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="h3">Planes de membresía</h1>
+        <a class="btn btn-primary" th:href="@{/planes/nuevo}">Nuevo plan</a>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped table-hover align-middle">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Duración (días)</th>
+                    <th>Precio</th>
+                    <th>VIP</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="plan : ${planes}">
+                    <td th:text="${plan.id}">1</td>
+                    <td th:text="${plan.nombre}">Nombre</td>
+                    <td th:text="${plan.duracionDias}">30</td>
+                    <td th:text="${plan.precio}">0</td>
+                    <td th:text="${plan.accesoVip} ? 'Sí' : 'No'">No</td>
+                    <td th:text="${plan.estado == 1 ? 'Activo' : 'Inactivo'}">Activo</td>
+                    <td>
+                        <a class="btn btn-sm btn-outline-primary"
+                           th:href="@{/planes/{id}/editar(id=${plan.id})}">Editar</a>
+                        <form class="d-inline" th:action="@{/planes/{id}/eliminar(id=${plan.id})}"
+                              method="post" onsubmit="return confirm('¿Eliminar este plan?');">
+                            <button class="btn btn-sm btn-outline-danger" type="submit">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <p class="text-muted" th:if="${#lists.isEmpty(planes)}">No hay planes registrados.</p>
+</main>
+</body>
+</html>

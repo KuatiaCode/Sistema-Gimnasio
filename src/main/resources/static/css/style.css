@@ -1,0 +1,182 @@
+body {
+    background-color: #f8f9fa;
+}
+
+main {
+    padding-bottom: 2rem;
+    padding-top: 1.5rem;
+}
+
+.app-sidebar {
+    background-color: #212529;
+    bottom: 0;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    left: 0;
+    overflow-y: auto;
+    padding: 1.25rem 1rem;
+    position: fixed;
+    top: 0;
+    width: 15.5rem;
+    z-index: 1030;
+}
+
+.app-brand {
+    align-items: center;
+    color: #fff;
+    display: flex;
+    font-size: 1.05rem;
+    font-weight: 600;
+    gap: 0.75rem;
+    text-decoration: none;
+}
+
+.app-brand:hover {
+    color: #fff;
+}
+
+.app-brand-mark {
+    align-items: center;
+    background-color: #fff;
+    border-radius: 0.5rem;
+    color: #212529;
+    display: inline-flex;
+    font-size: 0.8rem;
+    font-weight: 700;
+    height: 2.25rem;
+    justify-content: center;
+    letter-spacing: 0.05em;
+    width: 2.25rem;
+}
+
+.app-sidebar-label {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    margin: 1.75rem 0 0.5rem;
+    text-transform: uppercase;
+}
+
+.app-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.app-nav-link {
+    border-radius: 0.5rem;
+    color: rgba(255, 255, 255, 0.75);
+    display: block;
+    font-weight: 500;
+    padding: 0.65rem 0.8rem;
+    text-decoration: none;
+}
+
+.app-nav-link:hover,
+.app-nav-link:focus {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+.app-sidebar-toggle,
+.app-sidebar-toggle-btn,
+.app-sidebar-backdrop {
+    display: none;
+}
+
+@media (min-width: 992px) {
+    body {
+        padding-left: 15.5rem;
+    }
+}
+
+@media (max-width: 991.98px) {
+    .app-sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.2s ease-in-out;
+    }
+
+    .app-sidebar-toggle:checked ~ .app-sidebar {
+        transform: translateX(0);
+    }
+
+    .app-sidebar-toggle-btn {
+        align-items: center;
+        background-color: #212529;
+        border-radius: 0.5rem;
+        color: #fff;
+        cursor: pointer;
+        display: inline-flex;
+        font-weight: 600;
+        left: 1rem;
+        padding: 0.5rem 0.8rem;
+        position: fixed;
+        top: 1rem;
+        z-index: 1040;
+    }
+
+    .app-sidebar-toggle:checked ~ .app-sidebar-backdrop {
+        background-color: rgba(0, 0, 0, 0.5);
+        bottom: 0;
+        display: block;
+        left: 0;
+        position: fixed;
+        right: 0;
+        top: 0;
+        z-index: 1020;
+    }
+
+    body {
+        padding-top: 4rem;
+    }
+
+    main {
+        padding-top: 0;
+    }
+}
+
+.dashboard-hero {
+    background: linear-gradient(135deg, #212529 0%, #495057 100%);
+    border-radius: 0.75rem;
+    color: #fff;
+    box-shadow: 0 1rem 2rem rgba(33, 37, 41, 0.12);
+}
+
+.dashboard-badge {
+    background-color: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: #fff;
+    font-weight: 500;
+}
+
+.dashboard-card {
+    border: 1px solid #dee2e6;
+    border-radius: 0.75rem;
+    color: #212529;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.dashboard-card:hover {
+    border-color: #adb5bd;
+    box-shadow: 0 0.75rem 1.5rem rgba(33, 37, 41, 0.1);
+    transform: translateY(-2px);
+}
+
+.dashboard-initial {
+    align-items: center;
+    background-color: #e9ecef;
+    border-radius: 0.5rem;
+    color: #212529;
+    display: inline-flex;
+    font-size: 0.85rem;
+    font-weight: 700;
+    height: 2.5rem;
+    justify-content: center;
+    letter-spacing: 0.05em;
+    width: 2.5rem;
+}

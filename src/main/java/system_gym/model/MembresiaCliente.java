@@ -30,7 +30,7 @@ public class MembresiaCliente {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_plan", nullable = false, 
                 foreignKey = @ForeignKey(name = "fk_membresias_plan"))
-    private PlanesMembresia plan;
+    private PlanesMembresia planesMembresia;
 
     @Column(name = "fecha_inicio", nullable = false)
     private LocalDate fechaInicio;

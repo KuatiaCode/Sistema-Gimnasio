@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:replace="~{fragments/head :: head('Ficha de Entrenamiento')}"></head>
+<body>
+<nav th:replace="~{fragments/nav :: nav}"></nav>
+<main class="container">
+    <h1 class="h3 mb-3" th:text="${ficha.id == null ? 'Nueva ficha de entrenamiento' : 'Editar ficha de entrenamiento'}">Ficha</h1>
+    <form class="row g-3" th:object="${ficha}" th:action="@{/fichas-entrenamiento}" method="post">
+        <input type="hidden" th:field="*{id}">
+        <div class="col-md-4">
+            <label class="form-label" for="clienteId">Cliente</label>
+            <select class="form-select" id="clienteId" name="clienteId" required>
+                <option th:each="cliente : ${clientes}" th:value="${cliente.id}"
+                        th:text="${cliente.nombre + ' ' + cliente.apellido}"
+                        th:selected="${ficha.cliente != null and ficha.cliente.id == cliente.id}"></option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <label class="form-label" for="entrenadorId">Entrenador</label>
+            <select class="form-select" id="entrenadorId" name="entrenadorId" required>
+                <option th:each="entrenador : ${entrenadores}" th:value="${entrenador.id}"
+                        th:text="${entrenador.usuario}"
+                        th:selected="${ficha.entrenador != null and ficha.entrenador.id == entrenador.id}"></option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <label class="form-label" for="fechaCreacion">Fecha de creación</label>
+            <input class="form-control" id="fechaCreacion" type="date" th:field="*{fechaCreacion}" required>
+        </div>
+        <div class="col-12">
+            <label class="form-label" for="objetivo">Objetivo</label>
+            <input class="form-control" id="objetivo" type="text" th:field="*{objetivo}">
+        </div>
+        <div class="col-md-6">
+            <label class="form-label" for="rutinaLunes">Lunes</label>
+            <textarea class="form-control" id="rutinaLunes" rows="2" th:field="*{rutinaLunes}" required></textarea>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label" for="rutinaMartes">Martes</label>
+            <textarea class="form-control" id="rutinaMartes" rows="2" th:field="*{rutinaMartes}" required></textarea>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label" for="rutinaMiercoles">Miércoles</label>
+            <textarea class="form-control" id="rutinaMiercoles" rows="2" th:field="*{rutinaMiercoles}" required></textarea>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label" for="rutinaJueves">Jueves</label>
+            <textarea class="form-control" id="rutinaJueves" rows="2" th:field="*{rutinaJueves}" required></textarea>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label" for="rutinaViernes">Viernes</label>
+            <textarea class="form-control" id="rutinaViernes" rows="2" th:field="*{rutinaViernes}" required></textarea>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label" for="rutinaSabado">Sábado</label>
+            <textarea class="form-control" id="rutinaSabado" rows="2" th:field="*{rutinaSabado}" required></textarea>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label" for="rutinaDomingo">Domingo</label>
+            <textarea class="form-control" id="rutinaDomingo" rows="2" th:field="*{rutinaDomingo}" required></textarea>
+        </div>
+        <div class="col-12">
+            <button class="btn btn-primary" type="submit">Guardar</button>
+            <a class="btn btn-secondary" th:href="@{/fichas-entrenamiento}">Cancelar</a>
+        </div>
+    </form>
+</main>
+</body>
+</html>

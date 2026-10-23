@@ -29,7 +29,7 @@ public class Roles {
     @Column(name = "descripcion", length = 200, nullable = false)
     private String descripcion;
 
-    Roles() {}
+    public Roles() {}
     public Roles(Integer id, String nombre, String descripcion) {
         this.id = id;
         this.nombre = nombre;

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:replace="~{fragments/head :: head('Pagos')}"></head>
+<body>
+<nav th:replace="~{fragments/nav :: nav}"></nav>
+<main class="container">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="h3">Pagos</h1>
+        <a class="btn btn-primary" th:href="@{/pagos/nuevo}">Nuevo pago</a>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped table-hover align-middle">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Cliente</th>
+                    <th>Membresía</th>
+                    <th>Monto</th>
+                    <th>Método</th>
+                    <th>Fecha</th>
+                    <th>Descuento</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="pago : ${pagos}">
+                    <td th:text="${pago.id}">1</td>
+                    <td th:text="${pago.cliente != null ? pago.cliente.nombre + ' ' + pago.cliente.apellido : ''}">Cliente</td>
+                    <td th:text="${pago.membresia != null ? pago.membresia.id : ''}">Membresía</td>
+                    <td th:text="${pago.montoTotal}">0</td>
+                    <td th:text="${pago.metodoPago}">1</td>
+                    <td th:text="${pago.fechaPago}">Fecha</td>
+                    <td th:text="${pago.descuentoAplicado}">0</td>
+                    <td>
+                        <a class="btn btn-sm btn-outline-primary"
+                           th:href="@{/pagos/{id}/editar(id=${pago.id})}">Editar</a>
+                        <form class="d-inline" th:action="@{/pagos/{id}/eliminar(id=${pago.id})}"
+                              method="post" onsubmit="return confirm('¿Eliminar este pago?');">
+                            <button class="btn btn-sm btn-outline-danger" type="submit">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <p class="text-muted" th:if="${#lists.isEmpty(pagos)}">No hay pagos registrados.</p>
+</main>
+</body>
+</html>

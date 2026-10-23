@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<body>
+<div th:fragment="nav" class="app-nav-shell">
+    <input class="app-sidebar-toggle" id="app-sidebar-toggle" type="checkbox" aria-label="Abrir menú">
+    <label class="app-sidebar-toggle-btn" for="app-sidebar-toggle" aria-label="Abrir menú">Menú</label>
+    <label class="app-sidebar-backdrop" for="app-sidebar-toggle" aria-label="Cerrar menú"></label>
+    <aside class="app-sidebar">
+        <a class="app-brand" th:href="@{/dashboard}">
+            <span class="app-brand-mark">OC</span>
+            <span>Oficina del Cuerpo</span>
+        </a>
+        <p class="app-sidebar-label">Navegación</p>
+        <ul class="app-nav">
+            <li><a class="app-nav-link" th:href="@{/dashboard}">Dashboard</a></li>
+            <li><a class="app-nav-link" th:href="@{/clientes}">Clientes</a></li>
+            <li><a class="app-nav-link" th:href="@{/membresias}">Membresías</a></li>
+            <li><a class="app-nav-link" th:href="@{/planes}">Planes</a></li>
+            <li><a class="app-nav-link" th:href="@{/pagos}">Pagos</a></li>
+            <li><a class="app-nav-link" th:href="@{/fichas-entrenamiento}">Fichas de Entrenamiento</a></li>
+            <li><a class="app-nav-link" th:href="@{/fichas-medica}">Fichas Médicas</a></li>
+            <li><a class="app-nav-link" th:href="@{/usuarios}">Usuarios</a></li>
+            <li><a class="app-nav-link" th:href="@{/roles}">Roles</a></li>
+            <li><a class="app-nav-link" th:href="@{/configuracion}">Configuración</a></li>
+        </ul>
+    </aside>
+</div>
+</body>
+</html>

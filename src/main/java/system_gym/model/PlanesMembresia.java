@@ -21,7 +21,7 @@ public class PlanesMembresia {
     @Column(name = "id_plan")
     private Integer id;
 
-    @OneToMany(mappedBy = "plan", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "planesMembresia", fetch = FetchType.LAZY)
     private List<MembresiaCliente> usuariosMembresia = new ArrayList<>();
 
     @Column(name = "nombre", length = 100, nullable = false)
@@ -52,10 +52,10 @@ public class PlanesMembresia {
         this.descripcion = descripcion;
         this.estado = estado;
     }
-    public Integer getid() {
+    public Integer getId() {
         return id;
     }
-    public void setid(Integer id) {
+    public void setId(Integer id) {
         this.id = id;
     }
     public String getNombre() {

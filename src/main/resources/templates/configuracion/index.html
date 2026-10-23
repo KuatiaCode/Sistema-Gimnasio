@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:replace="~{fragments/head :: head('Configuración')}"></head>
+<body>
+<nav th:replace="~{fragments/nav :: nav}"></nav>
+<main class="container">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="h3">Configuración</h1>
+        <a class="btn btn-primary" th:href="@{/configuracion/nuevo}">Nueva configuración</a>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped table-hover align-middle">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Dirección</th>
+                    <th>Teléfono</th>
+                    <th>Correo</th>
+                    <th>RUC</th>
+                    <th>Capacidad</th>
+                    <th>Sesión (min)</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="configuracion : ${configuraciones}">
+                    <td th:text="${configuracion.id}">1</td>
+                    <td th:text="${configuracion.nombre}">Nombre</td>
+                    <td th:text="${configuracion.direccion}">Dirección</td>
+                    <td th:text="${configuracion.telefono}">Teléfono</td>
+                    <td th:text="${configuracion.correo}">Correo</td>
+                    <td th:text="${configuracion.ruc}">RUC</td>
+                    <td th:text="${configuracion.capacidadMaxima}">0</td>
+                    <td th:text="${configuracion.tiempoSesion}">30</td>
+                    <td>
+                        <a class="btn btn-sm btn-outline-primary"
+                           th:href="@{/configuracion/{id}/editar(id=${configuracion.id})}">Editar</a>
+                        <form class="d-inline" th:action="@{/configuracion/{id}/eliminar(id=${configuracion.id})}"
+                              method="post" onsubmit="return confirm('¿Eliminar esta configuración?');">
+                            <button class="btn btn-sm btn-outline-danger" type="submit">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <p class="text-muted" th:if="${#lists.isEmpty(configuraciones)}">No hay configuraciones registradas.</p>
+</main>
+</body>
+</html>

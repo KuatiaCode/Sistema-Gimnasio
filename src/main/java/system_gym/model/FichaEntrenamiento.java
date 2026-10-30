@@ -13,6 +13,10 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
+/**
+ * Plan de entrenamiento semanal asignado a un cliente por un entrenador.
+ * Cada día se almacena como texto libre para adaptarse a distintas rutinas.
+ */
 @Entity
 @Table(name = "tb_ficha_entrenamiento")
 public class FichaEntrenamiento {
@@ -26,6 +30,7 @@ public class FichaEntrenamiento {
                 foreignKey = @ForeignKey(name = "fk_fichas_cliente"))
     private Cliente cliente;
 
+    // El entrenador se toma del personal registrado como usuario.
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_entrenador", nullable = false, 
                 foreignKey = @ForeignKey(name = "fk_fichas_entrenador"))

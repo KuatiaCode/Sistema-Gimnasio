@@ -1,3 +1,4 @@
+/* Base general y espacio reservado para la barra lateral. */
 body {
     background-color: #f8f9fa;
 }
@@ -7,7 +8,8 @@ main {
     padding-top: 1.5rem;
 }
 
-.app-sidebar {
+/* Barra lateral fija y su contenido. */
+.barra-lateral {
     background-color: #212529;
     bottom: 0;
     color: #fff;
@@ -22,7 +24,7 @@ main {
     z-index: 1030;
 }
 
-.app-brand {
+.marca-gimnasio {
     align-items: center;
     color: #fff;
     display: flex;
@@ -32,11 +34,11 @@ main {
     text-decoration: none;
 }
 
-.app-brand:hover {
+.marca-gimnasio:hover {
     color: #fff;
 }
 
-.app-brand-mark {
+.iniciales-gimnasio {
     align-items: center;
     background-color: #fff;
     border-radius: 0.5rem;
@@ -50,7 +52,7 @@ main {
     width: 2.25rem;
 }
 
-.app-sidebar-label {
+.etiqueta-barra-lateral {
     color: rgba(255, 255, 255, 0.5);
     font-size: 0.75rem;
     font-weight: 600;
@@ -59,7 +61,7 @@ main {
     text-transform: uppercase;
 }
 
-.app-nav {
+.navegacion-lateral {
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
@@ -68,7 +70,7 @@ main {
     padding: 0;
 }
 
-.app-nav-link {
+.enlace-navegacion {
     border-radius: 0.5rem;
     color: rgba(255, 255, 255, 0.75);
     display: block;
@@ -77,15 +79,16 @@ main {
     text-decoration: none;
 }
 
-.app-nav-link:hover,
-.app-nav-link:focus {
+.enlace-navegacion:hover,
+.enlace-navegacion:focus {
     background-color: rgba(255, 255, 255, 0.1);
     color: #fff;
 }
 
-.app-sidebar-toggle,
-.app-sidebar-toggle-btn,
-.app-sidebar-backdrop {
+/* Controles ocultos en escritorio; se activan en pantallas pequeñas. */
+.alternador-barra-lateral,
+.boton-alternador-barra-lateral,
+.fondo-barra-lateral {
     display: none;
 }
 
@@ -95,17 +98,18 @@ main {
     }
 }
 
+/* En móvil la barra se desliza y el checkbox controla su apertura. */
 @media (max-width: 991.98px) {
-    .app-sidebar {
+    .barra-lateral {
         transform: translateX(-100%);
         transition: transform 0.2s ease-in-out;
     }
 
-    .app-sidebar-toggle:checked ~ .app-sidebar {
+    .alternador-barra-lateral:checked ~ .barra-lateral {
         transform: translateX(0);
     }
 
-    .app-sidebar-toggle-btn {
+    .boton-alternador-barra-lateral {
         align-items: center;
         background-color: #212529;
         border-radius: 0.5rem;
@@ -120,7 +124,7 @@ main {
         z-index: 1040;
     }
 
-    .app-sidebar-toggle:checked ~ .app-sidebar-backdrop {
+    .alternador-barra-lateral:checked ~ .fondo-barra-lateral {
         background-color: rgba(0, 0, 0, 0.5);
         bottom: 0;
         display: block;
@@ -140,34 +144,36 @@ main {
     }
 }
 
-.dashboard-hero {
+/* Panel de bienvenida del dashboard. */
+.panel-principal {
     background: linear-gradient(135deg, #212529 0%, #495057 100%);
     border-radius: 0.75rem;
     color: #fff;
     box-shadow: 0 1rem 2rem rgba(33, 37, 41, 0.12);
 }
 
-.dashboard-badge {
+.etiqueta-panel {
     background-color: rgba(255, 255, 255, 0.15);
     border: 1px solid rgba(255, 255, 255, 0.25);
     color: #fff;
     font-weight: 500;
 }
 
-.dashboard-card {
+/* Tarjetas de acceso rápido y su efecto al pasar el cursor. */
+.tarjeta-acceso {
     border: 1px solid #dee2e6;
     border-radius: 0.75rem;
     color: #212529;
     transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
-.dashboard-card:hover {
+.tarjeta-acceso:hover {
     border-color: #adb5bd;
     box-shadow: 0 0.75rem 1.5rem rgba(33, 37, 41, 0.1);
     transform: translateY(-2px);
 }
 
-.dashboard-initial {
+.inicial-tarjeta {
     align-items: center;
     background-color: #e9ecef;
     border-radius: 0.5rem;
@@ -181,10 +187,11 @@ main {
     width: 2.5rem;
 }
 
-.config-tabs .nav-link {
+/* Pestañas del módulo Configuración. */
+.pestanas-configuracion .nav-link {
     color: #495057;
 }
 
-.config-tabs .nav-link.active {
+.pestanas-configuracion .nav-link.active {
     font-weight: 600;
 }

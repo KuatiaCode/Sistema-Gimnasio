@@ -6,6 +6,7 @@
 <main class="container">
     <div th:replace="~{configuracion/tabs :: tabs('usuarios')}"></div>
     <h1 class="h3 mb-3" th:text="${usuarioForm.id == null ? 'Nuevo usuario' : 'Editar usuario'}">Usuario</h1>
+    <!-- Se usa usuarioForm para no colisionar con el campo usuario de la entidad. -->
     <form class="row g-3" th:object="${usuarioForm}" th:action="@{/configuracion/usuarios}" method="post">
         <input type="hidden" th:field="*{id}">
         <div class="col-md-6">
@@ -17,12 +18,12 @@
             <input class="form-control" id="correo" type="email" th:field="*{correo}" required>
         </div>
         <div class="col-md-6">
-            <label class="form-label" for="passwordHash">Contraseña (hash)</label>
-            <input class="form-control" id="passwordHash" type="text" th:field="*{passwordHash}" required>
+            <label class="form-label" for="hash-contrasena">Contraseña (hash)</label>
+            <input class="form-control" id="hash-contrasena" type="text" th:field="*{passwordHash}" required>
         </div>
         <div class="col-md-6">
-            <label class="form-label" for="rolesId">Rol</label>
-            <select class="form-select" id="rolesId" name="rolesId" required>
+            <label class="form-label" for="id-rol">Rol</label>
+            <select class="form-select" id="id-rol" name="rolesId" required>
                 <option th:each="rol : ${roles}" th:value="${rol.id}" th:text="${rol.nombre}"
                         th:selected="${usuarioForm.roles != null and usuarioForm.roles.id == rol.id}"></option>
             </select>

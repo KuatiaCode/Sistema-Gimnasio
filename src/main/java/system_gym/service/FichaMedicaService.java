@@ -8,6 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 import system_gym.model.FichaMedica;
 import system_gym.repository.FichaMedicaRepository;
 
+/**
+ * Servicio CRUD para las fichas médicas.
+ */
 @Service
 public class FichaMedicaService {
 

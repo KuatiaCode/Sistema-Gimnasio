@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import system_gym.model.Roles;
 import system_gym.service.RolesService;
 
+/**
+ * Controlador MVC para los roles dentro de Configuración.
+ */
 @Controller
 @RequestMapping("/configuracion/roles")
 public class RolesController {

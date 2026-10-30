@@ -4,6 +4,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+/**
+ * Mantiene compatibilidad con las rutas antiguas de roles, usuarios y configuración.
+ */
 @Controller
 public class LegacyRedirectController {
 

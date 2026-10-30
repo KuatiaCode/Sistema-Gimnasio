@@ -8,6 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 import system_gym.model.Cliente;
 import system_gym.repository.ClienteRepository;
 
+/**
+ * Servicio CRUD para los clientes del gimnasio.
+ */
 @Service
 public class ClienteService {
 

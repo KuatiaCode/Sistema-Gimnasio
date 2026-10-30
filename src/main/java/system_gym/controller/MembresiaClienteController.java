@@ -14,6 +14,9 @@ import system_gym.service.ClienteService;
 import system_gym.service.MembresiaClienteService;
 import system_gym.service.PlanesMembresiaService;
 
+/**
+ * Controlador MVC para las membresías contratadas por los clientes.
+ */
 @Controller
 @RequestMapping("/membresias")
 public class MembresiaClienteController {
@@ -45,6 +48,7 @@ public class MembresiaClienteController {
     @PostMapping
     public String guardar(@ModelAttribute MembresiaCliente membresia,
             @RequestParam Integer clienteId, @RequestParam Integer planId) {
+        // El formulario envía ids; aquí se resuelven las entidades relacionadas.
         membresia.setCliente(clienteService.buscarPorId(clienteId));
         membresia.setPlanesMembresia(planesMembresiaService.buscarPorId(planId));
         membresiaClienteService.guardar(membresia);

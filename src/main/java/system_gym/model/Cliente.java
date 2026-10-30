@@ -15,6 +15,10 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
+/**
+ * Cliente registrado en el gimnasio.
+ * Centraliza sus datos personales y las relaciones con membresías, pagos y fichas.
+ */
 @Entity
 @Table(name = "tb_cliente", uniqueConstraints = {
     @UniqueConstraint(name = "uq_cliente_documento", columnNames = "documento"),
@@ -26,6 +30,7 @@ public class Cliente {
     @Column(name = "id_cliente")
     private Integer id;
 
+    // Las operaciones sobre el cliente se propagan a sus registros asociados.
     @OneToMany (mappedBy = "cliente", cascade = CascadeType.ALL, fetch = FetchType.LAZY) 
     private List<MembresiaCliente> membresias = new ArrayList<>();
 

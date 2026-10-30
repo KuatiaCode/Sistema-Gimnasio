@@ -8,6 +8,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
+/**
+ * Configuración general del gimnasio.
+ * Se maneja como registro único: la aplicación reutiliza siempre la primera fila.
+ */
 @Entity
 @Table(name = "tb_configuracion", uniqueConstraints = {
     @UniqueConstraint(name = "uq_configuracion_ruc", columnNames = "ruc")

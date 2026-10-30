@@ -8,6 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 import system_gym.model.MembresiaCliente;
 import system_gym.repository.MembresiaClienteRepository;
 
+/**
+ * Servicio CRUD para las membresías contratadas por los clientes.
+ */
 @Service
 public class MembresiaClienteService {
 

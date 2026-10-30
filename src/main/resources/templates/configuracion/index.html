@@ -8,6 +8,7 @@
     <h1 class="h3 mb-3">Datos del gimnasio</h1>
     <p class="text-muted">Estos son los datos generales que se utilizan en el sistema.</p>
     <div class="alert alert-success" role="alert" th:if="${mensaje}" th:text="${mensaje}"></div>
+    <!-- Formulario único: el id oculto permite actualizar el registro existente. -->
     <form class="row g-3" th:object="${configuracion}" th:action="@{/configuracion}" method="post" autocomplete="off">
         <input type="hidden" th:field="*{id}">
         <div class="col-md-6">

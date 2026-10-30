@@ -8,6 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 import system_gym.model.RegistroAuditoria;
 import system_gym.repository.RegistroAuditoriaRepository;
 
+/**
+ * Servicio de consulta y registro de la bitácora de peticiones.
+ */
 @Service
 public class AuditoriaService {
 

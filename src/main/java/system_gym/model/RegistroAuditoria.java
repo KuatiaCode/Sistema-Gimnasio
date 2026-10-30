@@ -11,6 +11,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 
+/**
+ * Registro de una petición HTTP atendida por la aplicación.
+ * Se usa para consultar actividad y errores desde el módulo de auditoría.
+ */
 @Entity
 @Table(name = "tb_auditoria", indexes = {
     @Index(name = "idx_auditoria_fecha", columnList = "fecha_hora"),
@@ -53,6 +57,7 @@ public class RegistroAuditoria {
     @Column(name = "codigo_http")
     private Integer codigoHttp;
 
+    // Resultado legible derivado del código HTTP: EXITO o ERROR.
     @Column(name = "resultado", length = 20, nullable = false)
     private String resultado;
 

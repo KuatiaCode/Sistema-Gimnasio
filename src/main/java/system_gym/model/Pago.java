@@ -14,6 +14,10 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
+/**
+ * Pago realizado por un cliente.
+ * Puede asociarse a una membresía o registrarse de forma independiente.
+ */
 @Entity
 @Table(name = "tb_pago")
 public class Pago {
@@ -27,6 +31,7 @@ public class Pago {
                 foreignKey = @ForeignKey(name = "fk_pagos_cliente"))
     private Cliente cliente;
 
+    // La membresía es opcional para permitir pagos sueltos.
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_membresia", nullable = true, 
                 foreignKey = @ForeignKey(name = "fk_pagos_membresia"))

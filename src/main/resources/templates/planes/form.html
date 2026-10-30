@@ -5,6 +5,7 @@
 <nav th:replace="~{fragments/nav :: nav}"></nav>
 <main class="container">
     <h1 class="h3 mb-3" th:text="${plan.id == null ? 'Nuevo plan' : 'Editar plan'}">Plan</h1>
+    <!-- Formulario reutilizado para crear y editar planes. -->
     <form class="row g-3" th:object="${plan}" th:action="@{/planes}" method="post">
         <input type="hidden" th:field="*{id}">
         <div class="col-md-6">

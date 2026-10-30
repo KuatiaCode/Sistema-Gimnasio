@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="es">
 <body>
-<div th:fragment="tabs(activa)" class="config-tabs mb-4">
+<!-- Pestañas compartidas por las vistas de Configuración. -->
+<div th:fragment="tabs(activa)" class="pestanas-configuracion mb-4">
     <ul class="nav nav-tabs flex-wrap gap-1">
         <li class="nav-item">
             <a class="nav-link" th:classappend="${activa == 'datos' ? 'active' : ''}"

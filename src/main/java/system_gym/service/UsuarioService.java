@@ -8,6 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 import system_gym.model.Usuario;
 import system_gym.repository.UsuarioRepository;
 
+/**
+ * Servicio CRUD para los usuarios del sistema.
+ */
 @Service
 public class UsuarioService {
 

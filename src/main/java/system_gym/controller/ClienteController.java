@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import system_gym.model.Cliente;
 import system_gym.service.ClienteService;
 
+/**
+ * Controlador MVC para listar, crear, editar y eliminar clientes.
+ */
 @Controller
 @RequestMapping("/clientes")
 public class ClienteController {

@@ -8,6 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 import system_gym.model.PlanesMembresia;
 import system_gym.repository.PlanesMembresiaRepository;
 
+/**
+ * Servicio CRUD para el catálogo de planes de membresía.
+ */
 @Service
 public class PlanesMembresiaService {
 

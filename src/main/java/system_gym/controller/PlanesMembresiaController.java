@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import system_gym.model.PlanesMembresia;
 import system_gym.service.PlanesMembresiaService;
 
+/**
+ * Controlador MVC para administrar el catálogo de planes.
+ */
 @Controller
 @RequestMapping("/planes")
 public class PlanesMembresiaController {

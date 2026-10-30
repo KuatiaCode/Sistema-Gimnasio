@@ -11,10 +11,14 @@ import jakarta.servlet.http.HttpServletResponse;
 import system_gym.model.RegistroAuditoria;
 import system_gym.service.AuditoriaService;
 
+/**
+ * Registra cada petición MVC en la tabla de auditoría al finalizar su ejecución.
+ */
 @Component
 public class AuditoriaInterceptor implements HandlerInterceptor {
 
     private static final Logger log = LoggerFactory.getLogger(AuditoriaInterceptor.class);
+    // Atributo interno para calcular la duración sin depender de estado compartido.
     private static final String INICIO = AuditoriaInterceptor.class.getName() + ".inicio";
 
     private final AuditoriaService auditoriaService;
@@ -31,6 +35,7 @@ public class AuditoriaInterceptor implements HandlerInterceptor {
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
+        // La auditoría nunca debe interrumpir la respuesta al usuario.
         try {
             Object inicio = request.getAttribute(INICIO);
             long duracion = inicio instanceof Long valor ? System.currentTimeMillis() - valor : 0L;
@@ -56,12 +61,14 @@ public class AuditoriaInterceptor implements HandlerInterceptor {
     }
 
     private String obtenerRuta(HttpServletRequest request) {
+        // Elimina el segmento ;jsessionid para agrupar la misma ruta lógica.
         String uri = request.getRequestURI();
         int separador = uri.indexOf(';');
         return separador >= 0 ? uri.substring(0, separador) : uri;
     }
 
     private int obtenerCodigoHttp(HttpServletRequest request, HttpServletResponse response, Exception ex) {
+        // Si hubo excepción, el contenedor puede responder 500 sin reflejarlo aún en response.
         if (ex != null) {
             return HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
         }
@@ -81,6 +88,7 @@ public class AuditoriaInterceptor implements HandlerInterceptor {
     }
 
     private String obtenerAccion(String metodoHttp, String ruta) {
+        // Clasificación simple para mostrar la intención de la petición.
         if ("GET".equals(metodoHttp)) {
             return "CONSULTA";
         }

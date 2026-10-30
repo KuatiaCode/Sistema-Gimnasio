@@ -14,6 +14,9 @@ import system_gym.service.ClienteService;
 import system_gym.service.FichaMedicaService;
 import system_gym.service.UsuarioService;
 
+/**
+ * Controlador MVC para las fichas médicas.
+ */
 @Controller
 @RequestMapping("/fichas-medica")
 public class FichaMedicaController {
@@ -45,6 +48,7 @@ public class FichaMedicaController {
     @PostMapping
     public String guardar(@ModelAttribute("ficha") FichaMedica ficha,
             @RequestParam Integer clienteId, @RequestParam Integer entrenadorId) {
+        // Se resuelven cliente y entrenador a partir de los ids del formulario.
         ficha.setCliente(clienteService.buscarPorId(clienteId));
         ficha.setEntrenador(usuarioService.buscarPorId(entrenadorId));
         fichaMedicaService.guardar(ficha);

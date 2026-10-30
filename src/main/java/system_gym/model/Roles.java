@@ -12,6 +12,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
+/**
+ * Rol de seguridad asignable a los usuarios del sistema.
+ * Agrupa usuarios para futuras validaciones de permisos.
+ */
 @Entity
 @Table(name = "tb_roles")
 public class Roles {

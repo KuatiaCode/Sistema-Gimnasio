@@ -5,19 +5,20 @@
 <nav th:replace="~{fragments/nav :: nav}"></nav>
 <main class="container">
     <h1 class="h3 mb-3" th:text="${pago.id == null ? 'Nuevo pago' : 'Editar pago'}">Pago</h1>
+    <!-- La membresía es opcional; el resto de datos identifica el pago. -->
     <form class="row g-3" th:object="${pago}" th:action="@{/pagos}" method="post">
         <input type="hidden" th:field="*{id}">
         <div class="col-md-6">
-            <label class="form-label" for="clienteId">Cliente</label>
-            <select class="form-select" id="clienteId" name="clienteId" required>
+            <label class="form-label" for="id-cliente">Cliente</label>
+            <select class="form-select" id="id-cliente" name="clienteId" required>
                 <option th:each="cliente : ${clientes}" th:value="${cliente.id}"
                         th:text="${cliente.nombre + ' ' + cliente.apellido}"
                         th:selected="${pago.cliente != null and pago.cliente.id == cliente.id}"></option>
             </select>
         </div>
         <div class="col-md-6">
-            <label class="form-label" for="membresiaId">Membresía (opcional)</label>
-            <select class="form-select" id="membresiaId" name="membresiaId">
+            <label class="form-label" for="id-membresia">Membresía (opcional)</label>
+            <select class="form-select" id="id-membresia" name="membresiaId">
                 <option value="">Sin membresía</option>
                 <option th:each="membresia : ${membresias}" th:value="${membresia.id}"
                         th:text="${'Membresía #' + membresia.id}"

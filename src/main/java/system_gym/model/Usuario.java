@@ -14,6 +14,10 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
+/**
+ * Usuario del sistema, incluido el personal que puede actuar como entrenador.
+ * Conserva el rol y los datos básicos de seguridad de la cuenta.
+ */
 @Entity
 @Table(name = "tb_usuario", uniqueConstraints = {
     @UniqueConstraint(columnNames = "usuario"),
@@ -25,6 +29,7 @@ public class Usuario {
     @Column(name = "id_usuario")
     private Integer id;
 
+    // Se carga junto al usuario porque el rol se necesita en cada validación.
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_rol", nullable = false, foreignKey = @ForeignKey(name = "fk_usuarios_roles"))
     private Roles roles;
@@ -41,6 +46,7 @@ public class Usuario {
     @Column(name = "dos_pasos_activo", nullable = false)
     private Boolean dosPasosActivo = false;
 
+    // Contador y fecha límite para futuras políticas de bloqueo de cuenta.
     @Column(name = "intentos_fallidos", nullable = false)
     private Integer intentosFallidos = 0;
 

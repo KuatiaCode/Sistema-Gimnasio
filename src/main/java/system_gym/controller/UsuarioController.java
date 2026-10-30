@@ -13,6 +13,9 @@ import system_gym.model.Usuario;
 import system_gym.service.RolesService;
 import system_gym.service.UsuarioService;
 
+/**
+ * Controlador MVC para los usuarios dentro de Configuración.
+ */
 @Controller
 @RequestMapping("/configuracion/usuarios")
 public class UsuarioController {
@@ -33,6 +36,7 @@ public class UsuarioController {
 
     @GetMapping("/nuevo")
     public String nuevo(Model model) {
+        // Se usa otro nombre para no chocar con el campo "usuario" de la entidad.
         model.addAttribute("usuarioForm", new Usuario());
         cargarRoles(model);
         return "usuarios/form";

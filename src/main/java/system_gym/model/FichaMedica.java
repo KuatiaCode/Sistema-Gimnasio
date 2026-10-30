@@ -14,6 +14,10 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
+/**
+ * Evaluación médica y antropométrica de un cliente.
+ * Registra antecedentes y determina si la persona está apta para entrenar.
+ */
 @Entity
 @Table(name = "tb_ficha_medica")
 public class FichaMedica {
@@ -41,6 +45,7 @@ public class FichaMedica {
     @Column(name = "altura", precision = 5, scale = 2, nullable = false)
     private BigDecimal altura;
 
+    // El IMC se calcula a partir del peso y la altura antes de guardar la ficha.
     @Column(name = "imc", precision = 5, scale = 2, nullable = false)
     private BigDecimal imc; 
 
@@ -71,6 +76,7 @@ public class FichaMedica {
     @Column(name = "lesiones", columnDefinition = "TEXT", nullable = false)
     private String lesiones;
 
+    // Por defecto se permite entrenar hasta que la evaluación indique lo contrario.
     @Column(name = "apto_entrenar", nullable = false)
     private Boolean aptoEntrenar = true; 
 

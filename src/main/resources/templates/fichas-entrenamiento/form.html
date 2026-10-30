@@ -5,19 +5,20 @@
 <nav th:replace="~{fragments/nav :: nav}"></nav>
 <main class="container">
     <h1 class="h3 mb-3" th:text="${ficha.id == null ? 'Nueva ficha de entrenamiento' : 'Editar ficha de entrenamiento'}">Ficha</h1>
+    <!-- Cliente y entrenador se eligen por id; las rutinas se escriben por día. -->
     <form class="row g-3" th:object="${ficha}" th:action="@{/fichas-entrenamiento}" method="post">
         <input type="hidden" th:field="*{id}">
         <div class="col-md-4">
-            <label class="form-label" for="clienteId">Cliente</label>
-            <select class="form-select" id="clienteId" name="clienteId" required>
+            <label class="form-label" for="id-cliente">Cliente</label>
+            <select class="form-select" id="id-cliente" name="clienteId" required>
                 <option th:each="cliente : ${clientes}" th:value="${cliente.id}"
                         th:text="${cliente.nombre + ' ' + cliente.apellido}"
                         th:selected="${ficha.cliente != null and ficha.cliente.id == cliente.id}"></option>
             </select>
         </div>
         <div class="col-md-4">
-            <label class="form-label" for="entrenadorId">Entrenador</label>
-            <select class="form-select" id="entrenadorId" name="entrenadorId" required>
+            <label class="form-label" for="id-entrenador">Entrenador</label>
+            <select class="form-select" id="id-entrenador" name="entrenadorId" required>
                 <option th:each="entrenador : ${entrenadores}" th:value="${entrenador.id}"
                         th:text="${entrenador.usuario}"
                         th:selected="${ficha.entrenador != null and ficha.entrenador.id == entrenador.id}"></option>

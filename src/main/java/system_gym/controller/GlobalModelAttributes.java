@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import system_gym.model.Configuracion;
 import system_gym.service.ConfiguracionService;
 
+/**
+ * Expone el nombre y las iniciales del gimnasio a todas las vistas.
+ */
 @ControllerAdvice
 public class GlobalModelAttributes {
 
@@ -36,6 +39,7 @@ public class GlobalModelAttributes {
         return nombre == null || nombre.isBlank() ? NOMBRE_POR_DEFECTO : nombre.trim();
     }
 
+    // Ignora conectores para que "Oficina del Cuerpo" genere "OC".
     private String obtenerIniciales(String nombre) {
         List<String> palabras = Arrays.stream(nombre.split("\\s+"))
                 .filter(palabra -> !palabra.isBlank())

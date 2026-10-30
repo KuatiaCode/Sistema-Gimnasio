@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import system_gym.model.RegistroAuditoria;
 import system_gym.service.AuditoriaService;
 
+/**
+ * Muestra la bitácora de peticiones de forma paginada y de solo lectura.
+ */
 @Controller
 @RequestMapping("/configuracion/auditoria")
 public class AuditoriaController {
@@ -25,6 +28,7 @@ public class AuditoriaController {
 
     @GetMapping
     public String listar(@RequestParam(defaultValue = "0") int page, Model model) {
+        // Los registros más recientes aparecen primero; el id desempata fechas iguales.
         Pageable pageable = PageRequest.of(
                 Math.max(page, 0),
                 20,

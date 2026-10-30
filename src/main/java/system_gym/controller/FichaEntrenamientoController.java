@@ -14,6 +14,9 @@ import system_gym.service.ClienteService;
 import system_gym.service.FichaEntrenamientoService;
 import system_gym.service.UsuarioService;
 
+/**
+ * Controlador MVC para las fichas de entrenamiento.
+ */
 @Controller
 @RequestMapping("/fichas-entrenamiento")
 public class FichaEntrenamientoController {
@@ -45,6 +48,7 @@ public class FichaEntrenamientoController {
     @PostMapping
     public String guardar(@ModelAttribute("ficha") FichaEntrenamiento ficha,
             @RequestParam Integer clienteId, @RequestParam Integer entrenadorId) {
+        // Se resuelven cliente y entrenador a partir de los ids del formulario.
         ficha.setCliente(clienteService.buscarPorId(clienteId));
         ficha.setEntrenador(usuarioService.buscarPorId(entrenadorId));
         fichaEntrenamientoService.guardar(ficha);

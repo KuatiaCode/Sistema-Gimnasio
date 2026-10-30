@@ -14,6 +14,9 @@ import system_gym.service.ClienteService;
 import system_gym.service.MembresiaClienteService;
 import system_gym.service.PagoService;
 
+/**
+ * Controlador MVC para registrar y administrar pagos.
+ */
 @Controller
 @RequestMapping("/pagos")
 public class PagoController {
@@ -46,6 +49,7 @@ public class PagoController {
     public String guardar(@ModelAttribute Pago pago, @RequestParam Integer clienteId,
             @RequestParam(required = false) Integer membresiaId) {
         pago.setCliente(clienteService.buscarPorId(clienteId));
+        // La membresía solo se asigna cuando el formulario la incluye.
         if (membresiaId != null) {
             pago.setMembresia(membresiaClienteService.buscarPorId(membresiaId));
         } else {

@@ -14,6 +14,10 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
+/**
+ * Membresía contratada por un cliente para un plan concreto.
+ * Guarda la vigencia, el estado y el precio acordado en el momento de la compra.
+ */
 @Entity
 @Table(name = "tb_membresias_clientes")
 public class MembresiaCliente {
@@ -41,6 +45,7 @@ public class MembresiaCliente {
     @Column(name = "estado", nullable = false)
     private Short estado; // 1: Activa, 2: Vencida, 3: Congelada
 
+    // Conserva el precio histórico aunque luego cambie el precio del plan.
     @Column(name = "precio_pagado", precision = 10, scale = 2)
     private BigDecimal precioPagado;
 

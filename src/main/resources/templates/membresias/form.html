@@ -5,19 +5,20 @@
 <nav th:replace="~{fragments/nav :: nav}"></nav>
 <main class="container">
     <h1 class="h3 mb-3" th:text="${membresia.id == null ? 'Nueva membresía' : 'Editar membresía'}">Membresía</h1>
+    <!-- Los catálogos se envían como ids; el controlador resuelve las entidades. -->
     <form class="row g-3" th:object="${membresia}" th:action="@{/membresias}" method="post">
         <input type="hidden" th:field="*{id}">
         <div class="col-md-6">
-            <label class="form-label" for="clienteId">Cliente</label>
-            <select class="form-select" id="clienteId" name="clienteId" required>
+            <label class="form-label" for="id-cliente">Cliente</label>
+            <select class="form-select" id="id-cliente" name="clienteId" required>
                 <option th:each="cliente : ${clientes}" th:value="${cliente.id}"
                         th:text="${cliente.nombre + ' ' + cliente.apellido}"
                         th:selected="${membresia.cliente != null and membresia.cliente.id == cliente.id}"></option>
             </select>
         </div>
         <div class="col-md-6">
-            <label class="form-label" for="planId">Plan</label>
-            <select class="form-select" id="planId" name="planId" required>
+            <label class="form-label" for="id-plan">Plan</label>
+            <select class="form-select" id="id-plan" name="planId" required>
                 <option th:each="plan : ${planes}" th:value="${plan.id}" th:text="${plan.nombre}"
                         th:selected="${membresia.planesMembresia != null and membresia.planesMembresia.id == plan.id}"></option>
             </select>

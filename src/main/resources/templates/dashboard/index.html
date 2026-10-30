@@ -5,13 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title th:text="${title}">Dashboard - Oficina del Cuerpo</title>
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css(v=2)}">
 </head>
 <body>
 <nav th:replace="~{fragments/nav :: nav}"></nav>
 <main class="container pb-5">
-    <section class="dashboard-hero p-4 p-md-5 mb-4">
-        <span class="badge dashboard-badge mb-3">Sistema de gestión</span>
+    <!-- Bienvenida con el nombre configurado del gimnasio. -->
+    <section class="panel-principal p-4 p-md-5 mb-4">
+        <span class="badge etiqueta-panel mb-3">Sistema de gestión</span>
         <h1 class="display-6 fw-bold mb-3" th:text="${nombreGimnasio}">Panel Principal</h1>
         <p class="lead mb-4">Bienvenido al sistema.</p>
         <div class="d-flex flex-wrap gap-2">
@@ -24,74 +25,75 @@
         <h2 class="h4 mb-0">Accesos rápidos</h2>
     </div>
 
+    <!-- Accesos directos a los módulos principales. -->
     <div class="row g-3">
         <div class="col-sm-6 col-xl-3">
-            <a class="card dashboard-card h-100 text-decoration-none" th:href="@{/clientes}">
+            <a class="card tarjeta-acceso h-100 text-decoration-none" th:href="@{/clientes}">
                 <div class="card-body">
-                    <span class="dashboard-initial">CL</span>
+                    <span class="inicial-tarjeta">CL</span>
                     <h3 class="h5 mt-3">Clientes</h3>
                     <p class="text-muted mb-0">Administrá los datos de los clientes del gimnasio.</p>
                 </div>
             </a>
         </div>
         <div class="col-sm-6 col-xl-3">
-            <a class="card dashboard-card h-100 text-decoration-none" th:href="@{/membresias}">
+            <a class="card tarjeta-acceso h-100 text-decoration-none" th:href="@{/membresias}">
                 <div class="card-body">
-                    <span class="dashboard-initial">ME</span>
+                    <span class="inicial-tarjeta">ME</span>
                     <h3 class="h5 mt-3">Membresías</h3>
                     <p class="text-muted mb-0">Controlá altas, vencimientos y renovaciones.</p>
                 </div>
             </a>
         </div>
         <div class="col-sm-6 col-xl-3">
-            <a class="card dashboard-card h-100 text-decoration-none" th:href="@{/planes}">
+            <a class="card tarjeta-acceso h-100 text-decoration-none" th:href="@{/planes}">
                 <div class="card-body">
-                    <span class="dashboard-initial">PL</span>
+                    <span class="inicial-tarjeta">PL</span>
                     <h3 class="h5 mt-3">Planes</h3>
                     <p class="text-muted mb-0">Gestioná la oferta de planes y sus precios.</p>
                 </div>
             </a>
         </div>
         <div class="col-sm-6 col-xl-3">
-            <a class="card dashboard-card h-100 text-decoration-none" th:href="@{/pagos}">
+            <a class="card tarjeta-acceso h-100 text-decoration-none" th:href="@{/pagos}">
                 <div class="card-body">
-                    <span class="dashboard-initial">PA</span>
+                    <span class="inicial-tarjeta">PA</span>
                     <h3 class="h5 mt-3">Pagos</h3>
                     <p class="text-muted mb-0">Consultá y registrá los pagos recibidos.</p>
                 </div>
             </a>
         </div>
         <div class="col-sm-6 col-xl-3">
-            <a class="card dashboard-card h-100 text-decoration-none" th:href="@{/fichas-entrenamiento}">
+            <a class="card tarjeta-acceso h-100 text-decoration-none" th:href="@{/fichas-entrenamiento}">
                 <div class="card-body">
-                    <span class="dashboard-initial">FE</span>
+                    <span class="inicial-tarjeta">FE</span>
                     <h3 class="h5 mt-3">Fichas de entrenamiento</h3>
                     <p class="text-muted mb-0">Asigná rutinas y objetivos a cada cliente.</p>
                 </div>
             </a>
         </div>
         <div class="col-sm-6 col-xl-3">
-            <a class="card dashboard-card h-100 text-decoration-none" th:href="@{/fichas-medica}">
+            <a class="card tarjeta-acceso h-100 text-decoration-none" th:href="@{/fichas-medica}">
                 <div class="card-body">
-                    <span class="dashboard-initial">FM</span>
+                    <span class="inicial-tarjeta">FM</span>
                     <h3 class="h5 mt-3">Fichas médicas</h3>
                     <p class="text-muted mb-0">Revisá evaluaciones y antecedentes de salud.</p>
                 </div>
             </a>
         </div>
         <div class="col-sm-6 col-xl-3">
-            <a class="card dashboard-card h-100 text-decoration-none" th:href="@{/configuracion/usuarios}">
+            <a class="card tarjeta-acceso h-100 text-decoration-none" th:href="@{/configuracion/usuarios}">
                 <div class="card-body">
-                    <span class="dashboard-initial">US</span>
+                    <span class="inicial-tarjeta">US</span>
                     <h3 class="h5 mt-3">Usuarios</h3>
                     <p class="text-muted mb-0">Administrá las cuentas del personal del sistema.</p>
                 </div>
             </a>
         </div>
         <div class="col-sm-6 col-xl-3">
-            <a class="card dashboard-card h-100 text-decoration-none" th:href="@{/configuracion}">
+            <a class="card tarjeta-acceso h-100 text-decoration-none" th:href="@{/configuracion}">
                 <div class="card-body">
-                    <span class="dashboard-initial">CF</span>
+                    <span class="inicial-tarjeta">CF</span>
                     <h3 class="h5 mt-3">Configuración</h3>
                     <p class="text-muted mb-0">Actualizá los datos generales del gimnasio.</p>
                 </div>

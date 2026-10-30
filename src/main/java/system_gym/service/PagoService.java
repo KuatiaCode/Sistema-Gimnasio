@@ -8,6 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 import system_gym.model.Pago;
 import system_gym.repository.PagoRepository;
 
+/**
+ * Servicio CRUD para los pagos registrados.
+ */
 @Service
 public class PagoService {
 

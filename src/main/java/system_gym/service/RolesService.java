@@ -8,6 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 import system_gym.model.Roles;
 import system_gym.repository.RolesRepository;
 
+/**
+ * Servicio CRUD para los roles de seguridad.
+ */
 @Service
 public class RolesService {
 

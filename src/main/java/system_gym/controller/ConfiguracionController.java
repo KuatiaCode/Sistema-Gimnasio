@@ -12,6 +12,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import system_gym.model.Configuracion;
 import system_gym.service.ConfiguracionService;
 
+/**
+ * Controlador de la configuración global; expone un único formulario.
+ */
 @Controller
 @RequestMapping("/configuracion")
 public class ConfiguracionController {
@@ -24,6 +27,7 @@ public class ConfiguracionController {
 
     @GetMapping
     public String mostrar(Model model, HttpServletResponse response) {
+        // Evita que el navegador muestre datos desactualizados tras guardar.
         response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
         response.setHeader("Pragma", "no-cache");
         response.setDateHeader("Expires", 0);

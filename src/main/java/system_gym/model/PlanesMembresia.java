@@ -13,6 +13,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
+/**
+ * Catálogo de planes de membresía disponibles para la venta.
+ * Define duración, precio y beneficios como el acceso VIP.
+ */
 @Entity
 @Table(name = "tb_planes_membresia")
 public class PlanesMembresia {

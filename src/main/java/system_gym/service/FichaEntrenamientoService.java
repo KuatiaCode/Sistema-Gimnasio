@@ -8,6 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 import system_gym.model.FichaEntrenamiento;
 import system_gym.repository.FichaEntrenamientoRepository;
 
+/**
+ * Servicio CRUD para las fichas de entrenamiento.
+ */
 @Service
 public class FichaEntrenamientoService {
 

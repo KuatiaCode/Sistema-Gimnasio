@@ -14,7 +14,7 @@ import system_gym.service.RolesService;
 import system_gym.service.UsuarioService;
 
 @Controller
-@RequestMapping("/usuarios")
+@RequestMapping("/configuracion/usuarios")
 public class UsuarioController {
 
     private final UsuarioService usuarioService;
@@ -42,7 +42,7 @@ public class UsuarioController {
     public String guardar(@ModelAttribute("usuarioForm") Usuario usuario, @RequestParam Integer rolesId) {
         usuario.setRoles(rolesService.buscarPorId(rolesId));
         usuarioService.guardar(usuario);
-        return "redirect:/usuarios";
+        return "redirect:/configuracion/usuarios";
     }
 
     @GetMapping("/{id}/editar")
@@ -55,7 +55,7 @@ public class UsuarioController {
     @PostMapping("/{id}/eliminar")
     public String eliminar(@PathVariable Integer id) {
         usuarioService.eliminar(id);
-        return "redirect:/usuarios";
+        return "redirect:/configuracion/usuarios";
     }
 
     private void cargarRoles(Model model) {

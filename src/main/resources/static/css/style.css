@@ -180,3 +180,11 @@ main {
     letter-spacing: 0.05em;
     width: 2.5rem;
 }
+
+.config-tabs .nav-link {
+    color: #495057;
+}
+
+.config-tabs .nav-link.active {
+    font-weight: 600;
+}

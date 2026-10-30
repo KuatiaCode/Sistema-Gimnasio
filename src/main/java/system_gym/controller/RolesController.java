@@ -12,7 +12,7 @@ import system_gym.model.Roles;
 import system_gym.service.RolesService;
 
 @Controller
-@RequestMapping("/roles")
+@RequestMapping("/configuracion/roles")
 public class RolesController {
 
     private final RolesService rolesService;
@@ -36,7 +36,7 @@ public class RolesController {
     @PostMapping
     public String guardar(@ModelAttribute("rol") Roles rol) {
         rolesService.guardar(rol);
-        return "redirect:/roles";
+        return "redirect:/configuracion/roles";
     }
 
     @GetMapping("/{id}/editar")
@@ -48,6 +48,6 @@ public class RolesController {
     @PostMapping("/{id}/eliminar")
     public String eliminar(@PathVariable Integer id) {
         rolesService.eliminar(id);
-        return "redirect:/roles";
+        return "redirect:/configuracion/roles";
     }
 }

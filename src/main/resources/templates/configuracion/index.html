@@ -4,48 +4,46 @@
 <body>
 <nav th:replace="~{fragments/nav :: nav}"></nav>
 <main class="container">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h1 class="h3">Configuración</h1>
-        <a class="btn btn-primary" th:href="@{/configuracion/nuevo}">Nueva configuración</a>
-    </div>
-    <div class="table-responsive">
-        <table class="table table-striped table-hover align-middle">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Dirección</th>
-                    <th>Teléfono</th>
-                    <th>Correo</th>
-                    <th>RUC</th>
-                    <th>Capacidad</th>
-                    <th>Sesión (min)</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="configuracion : ${configuraciones}">
-                    <td th:text="${configuracion.id}">1</td>
-                    <td th:text="${configuracion.nombre}">Nombre</td>
-                    <td th:text="${configuracion.direccion}">Dirección</td>
-                    <td th:text="${configuracion.telefono}">Teléfono</td>
-                    <td th:text="${configuracion.correo}">Correo</td>
-                    <td th:text="${configuracion.ruc}">RUC</td>
-                    <td th:text="${configuracion.capacidadMaxima}">0</td>
-                    <td th:text="${configuracion.tiempoSesion}">30</td>
-                    <td>
-                        <a class="btn btn-sm btn-outline-primary"
-                           th:href="@{/configuracion/{id}/editar(id=${configuracion.id})}">Editar</a>
-                        <form class="d-inline" th:action="@{/configuracion/{id}/eliminar(id=${configuracion.id})}"
-                              method="post" onsubmit="return confirm('¿Eliminar esta configuración?');">
-                            <button class="btn btn-sm btn-outline-danger" type="submit">Eliminar</button>
-                        </form>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <p class="text-muted" th:if="${#lists.isEmpty(configuraciones)}">No hay configuraciones registradas.</p>
+    <div th:replace="~{configuracion/tabs :: tabs('datos')}"></div>
+    <h1 class="h3 mb-3">Datos del gimnasio</h1>
+    <p class="text-muted">Estos son los datos generales que se utilizan en el sistema.</p>
+    <div class="alert alert-success" role="alert" th:if="${mensaje}" th:text="${mensaje}"></div>
+    <form class="row g-3" th:object="${configuracion}" th:action="@{/configuracion}" method="post" autocomplete="off">
+        <input type="hidden" th:field="*{id}">
+        <div class="col-md-6">
+            <label class="form-label" for="nombre">Nombre</label>
+            <input class="form-control" id="nombre" type="text" th:field="*{nombre}" required>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label" for="ruc">RUC</label>
+            <input class="form-control" id="ruc" type="text" th:field="*{ruc}" required>
+        </div>
+        <div class="col-12">
+            <label class="form-label" for="direccion">Dirección</label>
+            <input class="form-control" id="direccion" type="text" th:field="*{direccion}" required>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label" for="telefono">Teléfono</label>
+            <input class="form-control" id="telefono" type="text" th:field="*{telefono}" required>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label" for="correo">Correo</label>
+            <input class="form-control" id="correo" type="email" th:field="*{correo}" required>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label" for="capacidadMaxima">Capacidad máxima</label>
+            <input class="form-control" id="capacidadMaxima" type="number" min="0"
+                   th:field="*{capacidadMaxima}" required>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label" for="tiempoSesion">Tiempo de sesión (min)</label>
+            <input class="form-control" id="tiempoSesion" type="number" min="1"
+                   th:field="*{tiempoSesion}" required>
+        </div>
+        <div class="col-12">
+            <button class="btn btn-primary" type="submit">Guardar</button>
+        </div>
+    </form>
 </main>
 </body>
 </html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<body>
+<div th:fragment="tabs(activa)" class="config-tabs mb-4">
+    <ul class="nav nav-tabs flex-wrap gap-1">
+        <li class="nav-item">
+            <a class="nav-link" th:classappend="${activa == 'datos' ? 'active' : ''}"
+               th:href="@{/configuracion}">Datos del gimnasio</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:classappend="${activa == 'roles' ? 'active' : ''}"
+               th:href="@{/configuracion/roles}">Roles</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:classappend="${activa == 'usuarios' ? 'active' : ''}"
+               th:href="@{/configuracion/usuarios}">Usuarios</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:classappend="${activa == 'auditoria' ? 'active' : ''}"
+               th:href="@{/configuracion/auditoria}">Registro de auditoría</a>
+        </li>
+    </ul>
+</div>
+</body>
+</html>

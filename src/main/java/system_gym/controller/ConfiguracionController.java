@@ -4,10 +4,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import jakarta.servlet.http.HttpServletResponse;
 import system_gym.model.Configuracion;
 import system_gym.service.ConfiguracionService;
 
@@ -22,32 +23,18 @@ public class ConfiguracionController {
     }
 
     @GetMapping
-    public String listar(Model model) {
-        model.addAttribute("configuraciones", configuracionService.listar());
+    public String mostrar(Model model, HttpServletResponse response) {
+        response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
+        response.setHeader("Pragma", "no-cache");
+        response.setDateHeader("Expires", 0);
+        model.addAttribute("configuracion", configuracionService.obtenerConfiguracion());
         return "configuracion/index";
     }
 
-    @GetMapping("/nuevo")
-    public String nuevo(Model model) {
-        model.addAttribute("configuracion", new Configuracion());
-        return "configuracion/form";
-    }
-
     @PostMapping
-    public String guardar(@ModelAttribute Configuracion configuracion) {
+    public String guardar(@ModelAttribute Configuracion configuracion, RedirectAttributes redirectAttributes) {
         configuracionService.guardar(configuracion);
-        return "redirect:/configuracion";
-    }
-
-    @GetMapping("/{id}/editar")
-    public String editar(@PathVariable Integer id, Model model) {
-        model.addAttribute("configuracion", configuracionService.buscarPorId(id));
-        return "configuracion/form";
-    }
-
-    @PostMapping("/{id}/eliminar")
-    public String eliminar(@PathVariable Integer id) {
-        configuracionService.eliminar(id);
+        redirectAttributes.addFlashAttribute("mensaje", "Datos guardados correctamente.");
         return "redirect:/configuracion";
     }
 }

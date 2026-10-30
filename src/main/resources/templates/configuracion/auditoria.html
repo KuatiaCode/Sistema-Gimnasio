@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:replace="~{fragments/head :: head('Registro de auditoría')}"></head>
+<body>
+<nav th:replace="~{fragments/nav :: nav}"></nav>
+<main class="container">
+    <div th:replace="~{configuracion/tabs :: tabs('auditoria')}"></div>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="h3 mb-0">Registro de auditoría</h1>
+        <span class="text-muted" th:text="${registros.totalElements} + ' registros'"></span>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped table-hover align-middle">
+            <thead>
+                <tr>
+                    <th>Fecha y hora</th>
+                    <th>Usuario</th>
+                    <th>Rol</th>
+                    <th>Acción</th>
+                    <th>Módulo</th>
+                    <th>Método</th>
+                    <th>Ruta</th>
+                    <th>IP</th>
+                    <th>Resultado</th>
+                    <th>Duración</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="registro : ${registros.content}">
+                    <td th:text="${registro.fechaHoraFormateada}">01/01/2026 10:00:00</td>
+                    <td th:text="${registro.usuario}">anónimo</td>
+                    <td th:text="${registro.rol != null ? registro.rol : '-'}">-</td>
+                    <td th:text="${registro.accion}">CONSULTA</td>
+                    <td th:text="${registro.modulo}">Clientes</td>
+                    <td th:text="${registro.metodoHttp}">GET</td>
+                    <td><code th:text="${registro.ruta}">/clientes</code></td>
+                    <td th:text="${registro.ip}">127.0.0.1</td>
+                    <td>
+                        <span class="badge"
+                              th:classappend="${registro.resultado == 'EXITO' ? 'text-bg-success' : 'text-bg-danger'}"
+                              th:text="${registro.resultado}">EXITO</span>
+                        <span class="text-muted ms-1" th:text="${registro.codigoHttp}">200</span>
+                    </td>
+                    <td th:text="${registro.duracionMs} + ' ms'">0 ms</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <p class="text-muted" th:if="${registros.empty}">No hay registros de auditoría.</p>
+    <nav aria-label="Paginación de auditoría" th:if="${registros.totalPages > 1}">
+        <ul class="pagination">
+            <li class="page-item" th:classappend="${registros.first} ? 'disabled' : ''">
+                <a class="page-link" th:href="@{/configuracion/auditoria(page=${registros.number - 1})}">Anterior</a>
+            </li>
+            <li class="page-item disabled">
+                <span class="page-link" th:text="${(registros.number + 1) + ' / ' + registros.totalPages}">1 / 1</span>
+            </li>
+            <li class="page-item" th:classappend="${registros.last} ? 'disabled' : ''">
+                <a class="page-link" th:href="@{/configuracion/auditoria(page=${registros.number + 1})}">Siguiente</a>
+            </li>
+        </ul>
+    </nav>
+</main>
+</body>
+</html>

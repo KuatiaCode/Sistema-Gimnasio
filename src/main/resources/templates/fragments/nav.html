@@ -7,8 +7,8 @@
     <label class="app-sidebar-backdrop" for="app-sidebar-toggle" aria-label="Cerrar menú"></label>
     <aside class="app-sidebar">
         <a class="app-brand" th:href="@{/dashboard}">
-            <span class="app-brand-mark">OC</span>
-            <span>Oficina del Cuerpo</span>
+            <span class="app-brand-mark" th:text="${inicialesGimnasio}">OC</span>
+            <span th:text="${nombreGimnasio}">Oficina del Cuerpo</span>
         </a>
         <p class="app-sidebar-label">Navegación</p>
         <ul class="app-nav">
@@ -19,8 +19,6 @@
             <li><a class="app-nav-link" th:href="@{/pagos}">Pagos</a></li>
             <li><a class="app-nav-link" th:href="@{/fichas-entrenamiento}">Fichas de Entrenamiento</a></li>
             <li><a class="app-nav-link" th:href="@{/fichas-medica}">Fichas Médicas</a></li>
-            <li><a class="app-nav-link" th:href="@{/usuarios}">Usuarios</a></li>
-            <li><a class="app-nav-link" th:href="@{/roles}">Roles</a></li>
             <li><a class="app-nav-link" th:href="@{/configuracion}">Configuración</a></li>
         </ul>
     </aside>

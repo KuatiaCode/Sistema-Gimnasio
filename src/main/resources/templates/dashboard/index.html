@@ -12,8 +12,8 @@
 <main class="container pb-5">
     <section class="dashboard-hero p-4 p-md-5 mb-4">
         <span class="badge dashboard-badge mb-3">Sistema de gestión</span>
-        <h1 class="display-6 fw-bold mb-3">Panel Principal</h1>
-        <p class="lead mb-4">Bienvenido al sistema de gestión Oficina del Cuerpo.</p>
+        <h1 class="display-6 fw-bold mb-3" th:text="${nombreGimnasio}">Panel Principal</h1>
+        <p class="lead mb-4">Bienvenido al sistema.</p>
         <div class="d-flex flex-wrap gap-2">
             <a class="btn btn-light" th:href="@{/clientes}">Ver clientes</a>
             <a class="btn btn-outline-light" th:href="@{/pagos}">Registrar pago</a>
@@ -80,7 +80,7 @@
             </a>
         </div>
         <div class="col-sm-6 col-xl-3">
-            <a class="card dashboard-card h-100 text-decoration-none" th:href="@{/usuarios}">
+            <a class="card dashboard-card h-100 text-decoration-none" th:href="@{/configuracion/usuarios}">
                 <div class="card-body">
                     <span class="dashboard-initial">US</span>
                     <h3 class="h5 mt-3">Usuarios</h3>

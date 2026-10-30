@@ -1,7 +1,5 @@
 package system_gym.service;
 
-import java.util.List;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,23 +16,19 @@ public class ConfiguracionService {
     }
 
     @Transactional(readOnly = true)
-    public List<Configuracion> listar() {
-        return configuracionRepository.findAll();
-    }
-
-    @Transactional(readOnly = true)
-    public Configuracion buscarPorId(Integer id) {
-        return configuracionRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Configuración no encontrada con id " + id));
+    public Configuracion obtenerConfiguracion() {
+        return configuracionRepository.findFirstByOrderByIdAsc().orElseGet(() -> {
+            Configuracion configuracion = new Configuracion();
+            configuracion.setTiempoSesion((short) 30);
+            return configuracion;
+        });
     }
 
     @Transactional
     public Configuracion guardar(Configuracion configuracion) {
+        configuracionRepository.findFirstByOrderByIdAsc().ifPresentOrElse(
+                existente -> configuracion.setId(existente.getId()),
+                () -> configuracion.setId(null));
         return configuracionRepository.save(configuracion);
-    }
-
-    @Transactional
-    public void eliminar(Integer id) {
-        configuracionRepository.deleteById(id);
     }
 }

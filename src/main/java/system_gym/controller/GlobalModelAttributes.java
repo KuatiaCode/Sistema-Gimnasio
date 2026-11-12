@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -33,6 +36,32 @@ public class GlobalModelAttributes {
         String nombre = normalizarNombre(configuracion.getNombre());
         model.addAttribute("nombreGimnasio", nombre);
         model.addAttribute("inicialesGimnasio", obtenerIniciales(nombre));
+
+        Authentication autenticacion = SecurityContextHolder.getContext().getAuthentication();
+        boolean autenticado = autenticacion != null
+                && autenticacion.isAuthenticated()
+                && !(autenticacion instanceof AnonymousAuthenticationToken);
+
+        boolean esAdmin = autenticado && tieneRol(autenticacion, "ROLE_ADMIN");
+        boolean esRecepcionista = autenticado && tieneRol(autenticacion, "ROLE_RECEPCIONISTA");
+        boolean esEntrenador = autenticado && tieneRol(autenticacion, "ROLE_ENTRENADOR");
+
+        String rolActual = esAdmin ? "Administrador"
+                : esRecepcionista ? "Recepcionista"
+                : esEntrenador ? "Entrenador" : "";
+
+        model.addAttribute("usuarioActual", autenticado ? autenticacion.getName() : null);
+        model.addAttribute("rolActual", rolActual);
+        model.addAttribute("esAdmin", esAdmin);
+        model.addAttribute("esRecepcionista", esRecepcionista);
+        model.addAttribute("esEntrenador", esEntrenador);
+        model.addAttribute("puedeGestionarOperaciones", esAdmin || esRecepcionista);
+        model.addAttribute("puedeGestionarFichas", esAdmin || esEntrenador);
+    }
+
+    private boolean tieneRol(Authentication autenticacion, String autoridad) {
+        return autenticacion.getAuthorities().stream()
+                .anyMatch(rol -> autoridad.equals(rol.getAuthority()));
     }
 
     private String normalizarNombre(String nombre) {

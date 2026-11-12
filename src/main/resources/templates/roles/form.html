@@ -6,9 +6,16 @@
 <main class="container">
     <div th:replace="~{configuracion/tabs :: tabs('roles')}"></div>
     <h1 class="h3 mb-3" th:text="${rol.id == null ? 'Nuevo rol' : 'Editar rol'}">Rol</h1>
+    <div class="alert alert-danger" role="alert" th:if="${error}" th:text="${error}"></div>
     <!-- Formulario compartido para crear y editar roles. -->
     <form class="row g-3" th:object="${rol}" th:action="@{/configuracion/roles}" method="post">
         <input type="hidden" th:field="*{id}">
+        <div class="col-md-6">
+            <label class="form-label" for="codigo">Código</label>
+            <input class="form-control text-uppercase" id="codigo" type="text" th:field="*{codigo}"
+                   maxlength="30" placeholder="ADMIN" required>
+            <div class="form-text">Identificador estable usado por los permisos del sistema.</div>
+        </div>
         <div class="col-md-6">
             <label class="form-label" for="nombre">Nombre</label>
             <input class="form-control" id="nombre" type="text" th:field="*{nombre}" required>

@@ -3,6 +3,12 @@ body {
     background-color: #f8f9fa;
 }
 
+/* La pantalla de login no reserva espacio para la barra lateral. */
+body.pagina-login {
+    padding-left: 0;
+    padding-top: 0;
+}
+
 main {
     padding-bottom: 2rem;
     padding-top: 1.5rem;

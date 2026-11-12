@@ -5,6 +5,7 @@
 <nav th:replace="~{fragments/nav :: nav}"></nav>
 <main class="container">
     <div th:replace="~{configuracion/tabs :: tabs('usuarios')}"></div>
+    <div class="alert alert-danger" role="alert" th:if="${error}" th:text="${error}"></div>
     <!-- Cuentas del personal y su rol asignado. -->
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h1 class="h3">Usuarios</h1>
@@ -19,7 +20,6 @@
                     <th>Correo</th>
                     <th>Rol</th>
                     <th>Dos pasos</th>
-                    <th>Intentos fallidos</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -30,7 +30,6 @@
                     <td th:text="${usuario.correo}">Correo</td>
                     <td th:text="${usuario.roles != null ? usuario.roles.nombre : ''}">Rol</td>
                     <td th:text="${usuario.dosPasosActivo} ? 'Sí' : 'No'">No</td>
-                    <td th:text="${usuario.intentosFallidos}">0</td>
                     <td>
                         <a class="btn btn-sm btn-outline-primary"
                            th:href="@{/configuracion/usuarios/{id}/editar(id=${usuario.id})}">Editar</a>

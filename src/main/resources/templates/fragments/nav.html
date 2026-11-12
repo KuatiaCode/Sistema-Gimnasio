@@ -16,13 +16,32 @@
         <ul class="navegacion-lateral">
             <li><a class="enlace-navegacion" th:href="@{/dashboard}">Dashboard</a></li>
             <li><a class="enlace-navegacion" th:href="@{/clientes}">Clientes</a></li>
-            <li><a class="enlace-navegacion" th:href="@{/membresias}">Membresías</a></li>
-            <li><a class="enlace-navegacion" th:href="@{/planes}">Planes</a></li>
-            <li><a class="enlace-navegacion" th:href="@{/pagos}">Pagos</a></li>
-            <li><a class="enlace-navegacion" th:href="@{/fichas-entrenamiento}">Fichas de Entrenamiento</a></li>
-            <li><a class="enlace-navegacion" th:href="@{/fichas-medica}">Fichas Médicas</a></li>
-            <li><a class="enlace-navegacion" th:href="@{/configuracion}">Configuración</a></li>
+            <li th:if="${puedeGestionarOperaciones}">
+                <a class="enlace-navegacion" th:href="@{/membresias}">Membresías</a>
+            </li>
+            <li th:if="${puedeGestionarOperaciones}">
+                <a class="enlace-navegacion" th:href="@{/planes}">Planes</a>
+            </li>
+            <li th:if="${puedeGestionarOperaciones}">
+                <a class="enlace-navegacion" th:href="@{/pagos}">Pagos</a>
+            </li>
+            <li th:if="${puedeGestionarFichas}">
+                <a class="enlace-navegacion" th:href="@{/fichas-entrenamiento}">Fichas de Entrenamiento</a>
+            </li>
+            <li th:if="${puedeGestionarFichas}">
+                <a class="enlace-navegacion" th:href="@{/fichas-medica}">Fichas Médicas</a>
+            </li>
+            <li th:if="${esAdmin}">
+                <a class="enlace-navegacion" th:href="@{/configuracion}">Configuración</a>
+            </li>
         </ul>
+        <div class="mt-auto pt-3 border-top border-secondary" th:if="${usuarioActual != null}">
+            <p class="small mb-1" th:text="${usuarioActual}">Usuario</p>
+            <p class="small text-white-50 mb-2" th:text="${rolActual}">Rol</p>
+            <form th:action="@{/logout}" method="post">
+                <button class="btn btn-outline-light btn-sm w-100" type="submit">Cerrar sesión</button>
+            </form>
+        </div>
     </aside>
 </div>
 </body>

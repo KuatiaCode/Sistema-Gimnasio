@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import system_gym.model.Usuario;
 import system_gym.service.RolesService;
@@ -43,9 +44,17 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public String guardar(@ModelAttribute("usuarioForm") Usuario usuario, @RequestParam Integer rolesId) {
+    public String guardar(@ModelAttribute("usuarioForm") Usuario usuario, @RequestParam Integer rolesId,
+            @RequestParam(required = false) String password, RedirectAttributes redirectAttributes) {
         usuario.setRoles(rolesService.buscarPorId(rolesId));
-        usuarioService.guardar(usuario);
+        try {
+            usuarioService.guardar(usuario, password);
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+            return usuario.getId() == null
+                    ? "redirect:/configuracion/usuarios/nuevo"
+                    : "redirect:/configuracion/usuarios/" + usuario.getId() + "/editar";
+        }
         return "redirect:/configuracion/usuarios";
     }
 
@@ -57,8 +66,12 @@ public class UsuarioController {
     }
 
     @PostMapping("/{id}/eliminar")
-    public String eliminar(@PathVariable Integer id) {
-        usuarioService.eliminar(id);
+    public String eliminar(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
+        try {
+            usuarioService.eliminar(id);
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+        }
         return "redirect:/configuracion/usuarios";
     }
 

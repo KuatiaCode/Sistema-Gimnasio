@@ -84,7 +84,16 @@ public class AuditoriaInterceptor implements HandlerInterceptor {
     }
 
     private String obtenerRol(HttpServletRequest request) {
-        return request.isUserInRole("ROLE_ADMIN") ? "ADMIN" : null;
+        if (request.isUserInRole("ROLE_ADMIN")) {
+            return "ADMIN";
+        }
+        if (request.isUserInRole("ROLE_RECEPCIONISTA")) {
+            return "RECEPCIONISTA";
+        }
+        if (request.isUserInRole("ROLE_ENTRENADOR")) {
+            return "ENTRENADOR";
+        }
+        return null;
     }
 
     private String obtenerAccion(String metodoHttp, String ruta) {

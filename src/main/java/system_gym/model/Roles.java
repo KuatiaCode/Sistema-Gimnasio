@@ -28,14 +28,17 @@ public class Roles {
     @OneToMany(mappedBy = "roles", fetch = FetchType.LAZY)
     private List<Usuario> usuarios = new ArrayList<>();
         
+    @Column(name = "codigo", length = 30, nullable = false, unique = true)
+    private String codigo;
     @Column(name = "nombre", length = 50, nullable = false)
     private String nombre;
     @Column(name = "descripcion", length = 200, nullable = false)
     private String descripcion;
 
     public Roles() {}
-    public Roles(Integer id, String nombre, String descripcion) {
+    public Roles(Integer id, String codigo, String nombre, String descripcion) {
         this.id = id;
+        this.codigo = codigo;
         this.nombre = nombre;
         this.descripcion = descripcion;
     }
@@ -44,6 +47,12 @@ public class Roles {
     }
     public void setId(Integer id) {
         this.id = id;
+    }
+    public String getCodigo() {
+        return codigo;
+    }
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
     public String getNombre() {
         return nombre;

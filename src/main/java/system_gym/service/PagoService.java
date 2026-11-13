@@ -1,5 +1,6 @@
 package system_gym.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -33,6 +34,25 @@ public class PagoService {
 
     @Transactional
     public Pago guardar(Pago pago) {
+        if (pago.getMontoTotal() == null || pago.getMontoTotal() < 0) {
+            throw new IllegalArgumentException("El monto total no puede ser negativo.");
+        }
+        if (pago.getDescuentoAplicado() == null) {
+            pago.setDescuentoAplicado(0L);
+        } else if (pago.getDescuentoAplicado() < 0) {
+            throw new IllegalArgumentException("El descuento aplicado no puede ser negativo.");
+        }
+        if (pago.getEstadoPago() == null) {
+            pago.setEstadoPago((short) 2);
+        }
+        if (pago.getEstadoPago() == 2) {
+            if (pago.getMetodoPago() == null) {
+                throw new IllegalArgumentException("El método de pago es obligatorio para un pago realizado.");
+            }
+            if (pago.getFechaPago() == null) {
+                pago.setFechaPago(LocalDateTime.now());
+            }
+        }
         return pagoRepository.save(pago);
     }
 

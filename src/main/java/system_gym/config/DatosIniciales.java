@@ -51,7 +51,8 @@ public class DatosIniciales implements CommandLineRunner {
         crearRolSiNoExiste("ENTRENADOR", "Entrenador",
                 "Gestión de clientes y fichas de entrenamiento y médicas.");
 
-        if (usuarioRepository.findByUsuario(adminUsuario).isEmpty()) {
+        if (usuarioRepository.findByUsuario(adminUsuario).isEmpty()
+                && !usuarioRepository.existsByCorreo(adminCorreo)) {
             Usuario usuario = new Usuario();
             usuario.setUsuario(adminUsuario);
             usuario.setCorreo(adminCorreo);

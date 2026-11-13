@@ -16,7 +16,7 @@
                     <th>ID</th>
                     <th>Cliente</th>
                     <th>Entrenador</th>
-                    <th>Fecha</th>
+                    <th>Fecha y hora</th>
                     <th>Peso</th>
                     <th>Altura</th>
                     <th>IMC</th>
@@ -29,7 +29,7 @@
                     <td th:text="${ficha.id}">1</td>
                     <td th:text="${ficha.cliente != null ? ficha.cliente.nombre + ' ' + ficha.cliente.apellido : ''}">Cliente</td>
                     <td th:text="${ficha.entrenador != null ? ficha.entrenador.usuario : ''}">Entrenador</td>
-                    <td th:text="${ficha.fecha}">Fecha</td>
+                    <td th:text="${#temporals.format(ficha.fecha, 'dd/MM/yyyy HH:mm')}">Fecha</td>
                     <td th:text="${ficha.peso}">0</td>
                     <td th:text="${ficha.altura}">0</td>
                     <td th:text="${ficha.imc}">0</td>

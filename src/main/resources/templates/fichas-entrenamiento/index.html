@@ -9,14 +9,18 @@
         <h1 class="h3">Fichas de entrenamiento</h1>
         <a class="btn btn-primary" th:href="@{/fichas-entrenamiento/nuevo}">Nueva ficha</a>
     </div>
+    <div class="alert alert-danger" role="alert" th:if="${error}" th:text="${error}"></div>
     <div class="table-responsive">
         <table class="table table-striped table-hover align-middle">
             <thead>
                 <tr>
                     <th>ID</th>
                     <th>Cliente</th>
-                    <th>Entrenador</th>
-                    <th>Fecha</th>
+                    <th>Membresía</th>
+                    <th>Planes</th>
+                    <th>Entrenadores</th>
+                    <th>Días</th>
+                    <th>Fecha y hora</th>
                     <th>Objetivo</th>
                     <th>Acciones</th>
                 </tr>
@@ -25,8 +29,18 @@
                 <tr th:each="ficha : ${fichas}">
                     <td th:text="${ficha.id}">1</td>
                     <td th:text="${ficha.cliente != null ? ficha.cliente.nombre + ' ' + ficha.cliente.apellido : ''}">Cliente</td>
-                    <td th:text="${ficha.entrenador != null ? ficha.entrenador.usuario : ''}">Entrenador</td>
-                    <td th:text="${ficha.fechaCreacion}">Fecha</td>
+                    <td th:text="${ficha.membresia != null ? 'Membresía #' + ficha.membresia.id : ''}">Membresía</td>
+                    <td>
+                        <span class="badge text-bg-light border me-1"
+                              th:if="${ficha.membresia != null}"
+                              th:each="plan : ${ficha.membresia.planes}" th:text="${plan.nombre}">Plan</span>
+                    </td>
+                    <td>
+                        <span class="badge text-bg-secondary me-1"
+                              th:each="entrenador : ${ficha.entrenadores}" th:text="${entrenador.usuario}">Entrenador</span>
+                    </td>
+                    <td th:text="${ficha.diasSemanaTexto}">Días</td>
+                    <td th:text="${#temporals.format(ficha.fechaCreacion, 'dd/MM/yyyy HH:mm')}">Fecha</td>
                     <td th:text="${ficha.objetivo}">Objetivo</td>
                     <td>
                         <a class="btn btn-sm btn-outline-primary"

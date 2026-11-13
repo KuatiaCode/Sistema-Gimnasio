@@ -1,7 +1,8 @@
 package system_gym.model;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,7 +16,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 /**
- * Pago realizado por un cliente.
+ * Pago realizado o pendiente de un cliente.
  * Puede asociarse a una membresía o registrarse de forma independiente.
  */
 @Entity
@@ -27,79 +28,107 @@ public class Pago {
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_cliente", nullable = false, 
+    @JoinColumn(name = "id_cliente", nullable = false,
                 foreignKey = @ForeignKey(name = "fk_pagos_cliente"))
     private Cliente cliente;
 
     // La membresía es opcional para permitir pagos sueltos.
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_membresia", nullable = true, 
+    @JoinColumn(name = "id_membresia", nullable = true,
                 foreignKey = @ForeignKey(name = "fk_pagos_membresia"))
     private MembresiaCliente membresia;
 
-    @Column(name = "monto_total", precision = 10, scale = 2, nullable = false)
-    private BigDecimal montoTotal;
+    @Column(name = "estado_pago", nullable = false)
+    private Short estadoPago = 2; // 1: Pendiente, 2: Pagado, 3: Anulado
 
-    @Column(name = "metodo_pago", nullable = false)
+    @Column(name = "monto_total", nullable = false)
+    private Long montoTotal;
+
+    @Column(name = "metodo_pago")
     private Short metodoPago; // 1: Efectivo, 2: Tarjeta, 3: Transferencia
 
-    @Column(name = "fecha_pago", nullable = false)
-    private LocalDateTime fechaPago = LocalDateTime.now();
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    @Column(name = "fecha_pago")
+    private LocalDateTime fechaPago;
 
-    @Column(name = "descuento_aplicado", precision = 10, scale = 2, nullable = false)
-    private BigDecimal descuentoAplicado = BigDecimal.ZERO;
+    @Column(name = "descuento_aplicado", nullable = false)
+    private Long descuentoAplicado = 0L;
 
     public Pago() {}
-    public Pago(Integer id, Cliente cliente, MembresiaCliente membresia, BigDecimal montoTotal, Short metodoPago, LocalDateTime fechaPago, BigDecimal descuentoAplicado) {
+
+    public Pago(Integer id, Cliente cliente, MembresiaCliente membresia, Short estadoPago,
+            Long montoTotal, Short metodoPago, LocalDateTime fechaPago, Long descuentoAplicado) {
         this.id = id;
         this.cliente = cliente;
         this.membresia = membresia;
+        this.estadoPago = estadoPago;
         this.montoTotal = montoTotal;
         this.metodoPago = metodoPago;
         this.fechaPago = fechaPago;
         this.descuentoAplicado = descuentoAplicado;
     }
+
     public Integer getId() {
         return id;
     }
+
     public void setId(Integer id) {
         this.id = id;
     }
+
     public Cliente getCliente() {
         return cliente;
     }
+
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
+
     public MembresiaCliente getMembresia() {
         return membresia;
     }
+
     public void setMembresia(MembresiaCliente membresia) {
-        this.membresia = membresia; 
+        this.membresia = membresia;
     }
-    public BigDecimal getMontoTotal() {
+
+    public Short getEstadoPago() {
+        return estadoPago;
+    }
+
+    public void setEstadoPago(Short estadoPago) {
+        this.estadoPago = estadoPago;
+    }
+
+    public Long getMontoTotal() {
         return montoTotal;
     }
-    public void setMontoTotal(BigDecimal montoTotal) {
+
+    public void setMontoTotal(Long montoTotal) {
         this.montoTotal = montoTotal;
     }
+
     public Short getMetodoPago() {
         return metodoPago;
     }
+
     public void setMetodoPago(Short metodoPago) {
         this.metodoPago = metodoPago;
     }
+
     public LocalDateTime getFechaPago() {
         return fechaPago;
     }
+
     public void setFechaPago(LocalDateTime fechaPago) {
         this.fechaPago = fechaPago;
-    }   
-    public BigDecimal getDescuentoAplicado() {
+    }
+
+    public Long getDescuentoAplicado() {
         return descuentoAplicado;
     }
-    public void setDescuentoAplicado(BigDecimal descuentoAplicado) {
+
+    public void setDescuentoAplicado(Long descuentoAplicado) {
         this.descuentoAplicado = descuentoAplicado;
     }
-    
 }

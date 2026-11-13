@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import system_gym.model.Pago;
 import system_gym.service.ClienteService;
@@ -46,16 +47,24 @@ public class PagoController {
     }
 
     @PostMapping
-    public String guardar(@ModelAttribute Pago pago, @RequestParam Integer clienteId,
-            @RequestParam(required = false) Integer membresiaId) {
-        pago.setCliente(clienteService.buscarPorId(clienteId));
-        // La membresía solo se asigna cuando el formulario la incluye.
-        if (membresiaId != null) {
-            pago.setMembresia(membresiaClienteService.buscarPorId(membresiaId));
-        } else {
-            pago.setMembresia(null);
+    public String guardar(@ModelAttribute Pago pago,
+            @RequestParam Integer clienteId,
+            @RequestParam(required = false) Integer membresiaId,
+            RedirectAttributes redirectAttributes) {
+        try {
+            pago.setCliente(clienteService.buscarPorId(clienteId));
+            if (membresiaId != null) {
+                pago.setMembresia(membresiaClienteService.buscarPorId(membresiaId));
+            } else {
+                pago.setMembresia(null);
+            }
+            pagoService.guardar(pago);
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+            return pago.getId() == null
+                    ? "redirect:/pagos/nuevo"
+                    : "redirect:/pagos/" + pago.getId() + "/editar";
         }
-        pagoService.guardar(pago);
         return "redirect:/pagos";
     }
 
@@ -67,8 +76,12 @@ public class PagoController {
     }
 
     @PostMapping("/{id}/eliminar")
-    public String eliminar(@PathVariable Integer id) {
-        pagoService.eliminar(id);
+    public String eliminar(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
+        try {
+            pagoService.eliminar(id);
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+        }
         return "redirect:/pagos";
     }
 

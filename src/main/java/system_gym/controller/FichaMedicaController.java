@@ -47,11 +47,17 @@ public class FichaMedicaController {
 
     @PostMapping
     public String guardar(@ModelAttribute("ficha") FichaMedica ficha,
-            @RequestParam Integer clienteId, @RequestParam Integer entrenadorId) {
+            @RequestParam Integer clienteId, @RequestParam Integer entrenadorId, Model model) {
         // Se resuelven cliente y entrenador a partir de los ids del formulario.
-        ficha.setCliente(clienteService.buscarPorId(clienteId));
-        ficha.setEntrenador(usuarioService.buscarPorId(entrenadorId));
-        fichaMedicaService.guardar(ficha);
+        try {
+            ficha.setCliente(clienteService.buscarPorId(clienteId));
+            ficha.setEntrenador(usuarioService.buscarPorId(entrenadorId));
+            fichaMedicaService.guardar(ficha);
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            model.addAttribute("error", e.getMessage());
+            cargarCatalogos(model);
+            return "fichas-medica/form";
+        }
         return "redirect:/fichas-medica";
     }
 
@@ -70,6 +76,6 @@ public class FichaMedicaController {
 
     private void cargarCatalogos(Model model) {
         model.addAttribute("clientes", clienteService.listar());
-        model.addAttribute("entrenadores", usuarioService.listar());
+        model.addAttribute("entrenadores", usuarioService.listarEntrenadores());
     }
 }

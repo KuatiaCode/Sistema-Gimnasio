@@ -201,3 +201,8 @@ main {
 .pestanas-configuracion .nav-link.active {
     font-weight: 600;
 }
+
+/* Conserva los saltos de línea de las descripciones de los planes. */
+.descripcion-actividades {
+    white-space: pre-line;
+}

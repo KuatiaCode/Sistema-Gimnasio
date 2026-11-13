@@ -5,60 +5,121 @@
 <nav th:replace="~{fragments/nav :: nav}"></nav>
 <main class="container">
     <h1 class="h3 mb-3" th:text="${ficha.id == null ? 'Nueva ficha de entrenamiento' : 'Editar ficha de entrenamiento'}">Ficha</h1>
-    <!-- Cliente y entrenador se eligen por id; las rutinas se escriben por día. -->
-    <form class="row g-3" th:object="${ficha}" th:action="@{/fichas-entrenamiento}" method="post">
+    <div class="alert alert-danger" role="alert" th:if="${error}" th:text="${error}"></div>
+    <div class="alert alert-info" role="alert">
+        El cliente debe tener una ficha médica vigente que confirme su aptitud para entrenar.
+    </div>
+    <div class="alert alert-warning d-none" id="aviso-membresia" role="alert">
+        El cliente no tiene una membresía activa. Registrá una membresía antes de crear la ficha.
+    </div>
+    <!-- La membresía y los entrenadores se eligen por id. -->
+    <form class="row g-3" th:object="${ficha}" th:action="@{/fichas-entrenamiento}" method="post"
+          id="form-ficha" th:attr="data-nueva=${ficha.id == null}">
         <input type="hidden" th:field="*{id}">
         <div class="col-md-4">
             <label class="form-label" for="id-cliente">Cliente</label>
             <select class="form-select" id="id-cliente" name="clienteId" required>
+                <option value="">Seleccioná un cliente</option>
                 <option th:each="cliente : ${clientes}" th:value="${cliente.id}"
                         th:text="${cliente.nombre + ' ' + cliente.apellido}"
                         th:selected="${ficha.cliente != null and ficha.cliente.id == cliente.id}"></option>
             </select>
         </div>
         <div class="col-md-4">
-            <label class="form-label" for="id-entrenador">Entrenador</label>
-            <select class="form-select" id="id-entrenador" name="entrenadorId" required>
-                <option th:each="entrenador : ${entrenadores}" th:value="${entrenador.id}"
-                        th:text="${entrenador.usuario}"
-                        th:selected="${ficha.entrenador != null and ficha.entrenador.id == entrenador.id}"></option>
+            <label class="form-label" for="id-membresia">Membresía</label>
+            <select class="form-select" id="id-membresia" name="membresiaId" required>
+                <option value="">Seleccioná una membresía</option>
+                <option th:each="membresia : ${membresias}" th:value="${membresia.id}"
+                        th:attr="data-cliente=${membresia.cliente.id},data-estado=${membresia.estado}"
+                        th:text="${'Membresía #' + membresia.id + ' - ' + membresia.fechaInicio + ' a ' + membresia.fechaVencimiento}"
+                        th:selected="${ficha.membresia != null and ficha.membresia.id == membresia.id}"></option>
             </select>
         </div>
         <div class="col-md-4">
-            <label class="form-label" for="fechaCreacion">Fecha de creación</label>
-            <input class="form-control" id="fechaCreacion" type="date" th:field="*{fechaCreacion}" required>
+            <label class="form-label" for="fechaCreacion">Fecha y hora de creación</label>
+            <input class="form-control" id="fechaCreacion" type="datetime-local"
+                   th:field="*{fechaCreacion}" readonly>
         </div>
+
+        <div class="col-12">
+            <label class="form-label">Actividades de los planes</label>
+            <div class="border rounded p-3 bg-white" id="detalle-membresia">
+                <p class="text-muted mb-0" th:if="${#lists.isEmpty(membresias)}">
+                    No hay membresías registradas.
+                </p>
+                <div class="detalle-membresia d-none" th:each="membresia : ${membresias}"
+                     th:attr="data-membresia=${membresia.id}">
+                    <div th:each="plan : ${membresia.planes}" class="mb-3">
+                        <div class="fw-semibold" th:text="${plan.nombre}">Plan</div>
+                        <div class="text-muted descripcion-actividades" th:text="${plan.descripcion}">Actividades</div>
+                    </div>
+                </div>
+                <p class="text-muted mb-0" id="sin-detalle">Seleccioná una membresía para ver sus actividades.</p>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <label class="form-label">Días de asistencia</label>
+            <div class="d-flex flex-wrap gap-3">
+                <div class="form-check">
+                    <input class="form-check-input" id="dia-lunes" type="checkbox"
+                           th:field="*{diasEntrenamiento}" th:value="1">
+                    <label class="form-check-label" for="dia-lunes">Lunes</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" id="dia-martes" type="checkbox"
+                           th:field="*{diasEntrenamiento}" th:value="2">
+                    <label class="form-check-label" for="dia-martes">Martes</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" id="dia-miercoles" type="checkbox"
+                           th:field="*{diasEntrenamiento}" th:value="3">
+                    <label class="form-check-label" for="dia-miercoles">Miércoles</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" id="dia-jueves" type="checkbox"
+                           th:field="*{diasEntrenamiento}" th:value="4">
+                    <label class="form-check-label" for="dia-jueves">Jueves</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" id="dia-viernes" type="checkbox"
+                           th:field="*{diasEntrenamiento}" th:value="5">
+                    <label class="form-check-label" for="dia-viernes">Viernes</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" id="dia-sabado" type="checkbox"
+                           th:field="*{diasEntrenamiento}" th:value="6">
+                    <label class="form-check-label" for="dia-sabado">Sábado</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" id="dia-domingo" type="checkbox"
+                           th:field="*{diasEntrenamiento}" th:value="7">
+                    <label class="form-check-label" for="dia-domingo">Domingo</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <label class="form-label">Entrenadores</label>
+            <div class="row g-2">
+                <div class="col-md-4" th:each="entrenador : ${entrenadores}">
+                    <div class="form-check border rounded p-3">
+                        <input class="form-check-input" type="checkbox" name="entrenadorIds"
+                               th:id="'entrenador-' + ${entrenador.id}" th:value="${entrenador.id}"
+                               th:checked="${ficha.entrenadores != null and ficha.entrenadores.contains(entrenador)}">
+                        <label class="form-check-label" th:for="'entrenador-' + ${entrenador.id}"
+                               th:text="${entrenador.usuario}">Entrenador</label>
+                    </div>
+                </div>
+            </div>
+            <p class="text-muted mt-2 mb-0" th:if="${#lists.isEmpty(entrenadores)}">
+                No hay usuarios con rol Entrenador. Crealos desde Configuración → Usuarios.
+            </p>
+        </div>
+
         <div class="col-12">
             <label class="form-label" for="objetivo">Objetivo</label>
             <input class="form-control" id="objetivo" type="text" th:field="*{objetivo}">
-        </div>
-        <div class="col-md-6">
-            <label class="form-label" for="rutinaLunes">Lunes</label>
-            <textarea class="form-control" id="rutinaLunes" rows="2" th:field="*{rutinaLunes}" required></textarea>
-        </div>
-        <div class="col-md-6">
-            <label class="form-label" for="rutinaMartes">Martes</label>
-            <textarea class="form-control" id="rutinaMartes" rows="2" th:field="*{rutinaMartes}" required></textarea>
-        </div>
-        <div class="col-md-6">
-            <label class="form-label" for="rutinaMiercoles">Miércoles</label>
-            <textarea class="form-control" id="rutinaMiercoles" rows="2" th:field="*{rutinaMiercoles}" required></textarea>
-        </div>
-        <div class="col-md-6">
-            <label class="form-label" for="rutinaJueves">Jueves</label>
-            <textarea class="form-control" id="rutinaJueves" rows="2" th:field="*{rutinaJueves}" required></textarea>
-        </div>
-        <div class="col-md-6">
-            <label class="form-label" for="rutinaViernes">Viernes</label>
-            <textarea class="form-control" id="rutinaViernes" rows="2" th:field="*{rutinaViernes}" required></textarea>
-        </div>
-        <div class="col-md-6">
-            <label class="form-label" for="rutinaSabado">Sábado</label>
-            <textarea class="form-control" id="rutinaSabado" rows="2" th:field="*{rutinaSabado}" required></textarea>
-        </div>
-        <div class="col-md-6">
-            <label class="form-label" for="rutinaDomingo">Domingo</label>
-            <textarea class="form-control" id="rutinaDomingo" rows="2" th:field="*{rutinaDomingo}" required></textarea>
         </div>
         <div class="col-12">
             <button class="btn btn-primary" type="submit">Guardar</button>
@@ -66,5 +127,6 @@
         </div>
     </form>
 </main>
+<script th:src="@{/js/ficha-entrenamiento-form.js(v=1)}"></script>
 </body>
 </html>

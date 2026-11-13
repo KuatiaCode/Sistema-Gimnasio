@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import system_gym.model.PlanesMembresia;
 import system_gym.service.PlanesMembresiaService;
@@ -37,8 +38,16 @@ public class PlanesMembresiaController {
     }
 
     @PostMapping
-    public String guardar(@ModelAttribute("plan") PlanesMembresia plan) {
-        planesMembresiaService.guardar(plan);
+    public String guardar(@ModelAttribute("plan") PlanesMembresia plan,
+            RedirectAttributes redirectAttributes) {
+        try {
+            planesMembresiaService.guardar(plan);
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+            return plan.getId() == null
+                    ? "redirect:/planes/nuevo"
+                    : "redirect:/planes/" + plan.getId() + "/editar";
+        }
         return "redirect:/planes";
     }
 
@@ -49,8 +58,12 @@ public class PlanesMembresiaController {
     }
 
     @PostMapping("/{id}/eliminar")
-    public String eliminar(@PathVariable Integer id) {
-        planesMembresiaService.eliminar(id);
+    public String eliminar(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
+        try {
+            planesMembresiaService.eliminar(id);
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+        }
         return "redirect:/planes";
     }
 }

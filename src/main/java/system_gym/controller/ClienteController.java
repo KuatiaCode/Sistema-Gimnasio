@@ -37,8 +37,13 @@ public class ClienteController {
     }
 
     @PostMapping
-    public String guardar(@ModelAttribute Cliente cliente) {
-        clienteService.guardar(cliente);
+    public String guardar(@ModelAttribute("cliente") Cliente cliente, Model model) {
+        try {
+            clienteService.guardar(cliente);
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            model.addAttribute("error", e.getMessage());
+            return "clientes/form";
+        }
         return "redirect:/clientes";
     }
 

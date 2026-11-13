@@ -29,6 +29,11 @@ public class UsuarioService {
     }
 
     @Transactional(readOnly = true)
+    public List<Usuario> listarEntrenadores() {
+        return usuarioRepository.findByRolesCodigoOrderByUsuarioAsc("ENTRENADOR");
+    }
+
+    @Transactional(readOnly = true)
     public Usuario buscarPorId(Integer id) {
         return usuarioRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado con id " + id));

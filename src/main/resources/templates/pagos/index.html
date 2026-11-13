@@ -9,6 +9,7 @@
         <h1 class="h3">Pagos</h1>
         <a class="btn btn-primary" th:href="@{/pagos/nuevo}">Nuevo pago</a>
     </div>
+    <div class="alert alert-danger" role="alert" th:if="${error}" th:text="${error}"></div>
     <div class="table-responsive">
         <table class="table table-striped table-hover align-middle">
             <thead>
@@ -17,6 +18,7 @@
                     <th>Cliente</th>
                     <th>Membresía</th>
                     <th>Monto</th>
+                    <th>Estado</th>
                     <th>Método</th>
                     <th>Fecha</th>
                     <th>Descuento</th>
@@ -28,10 +30,15 @@
                     <td th:text="${pago.id}">1</td>
                     <td th:text="${pago.cliente != null ? pago.cliente.nombre + ' ' + pago.cliente.apellido : ''}">Cliente</td>
                     <td th:text="${pago.membresia != null ? pago.membresia.id : ''}">Membresía</td>
-                    <td th:text="${pago.montoTotal}">0</td>
-                    <td th:text="${pago.metodoPago}">1</td>
-                    <td th:text="${pago.fechaPago}">Fecha</td>
-                    <td th:text="${pago.descuentoAplicado}">0</td>
+                    <td th:text="${'Gs. ' + pago.montoTotal}">0</td>
+                    <td>
+                        <span class="badge"
+                              th:classappend="${pago.estadoPago == 1 ? 'text-bg-warning' : (pago.estadoPago == 2 ? 'text-bg-success' : 'text-bg-secondary')}"
+                              th:text="${pago.estadoPago == 1 ? 'Pendiente' : (pago.estadoPago == 2 ? 'Pagado' : 'Anulado')}">Pendiente</span>
+                    </td>
+                    <td th:text="${pago.metodoPago == null ? 'Sin definir' : (pago.metodoPago == 1 ? 'Efectivo' : (pago.metodoPago == 2 ? 'Tarjeta' : 'Transferencia'))}">Sin definir</td>
+                    <td th:text="${pago.fechaPago != null ? #temporals.format(pago.fechaPago, 'dd/MM/yyyy HH:mm') : ''}">Fecha</td>
+                    <td th:text="${'Gs. ' + pago.descuentoAplicado}">0</td>
                     <td>
                         <a class="btn btn-sm btn-outline-primary"
                            th:href="@{/pagos/{id}/editar(id=${pago.id})}">Editar</a>

@@ -4,21 +4,24 @@
 <body>
 <nav th:replace="~{fragments/nav :: nav}"></nav>
 <main class="container">
-    <!-- Membresías contratadas, con cliente, plan y vigencia. -->
+    <!-- Membresías contratadas, con cliente, planes y vigencia. -->
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h1 class="h3">Membresías</h1>
         <a class="btn btn-primary" th:href="@{/membresias/nuevo}">Nueva membresía</a>
     </div>
+    <div class="alert alert-danger" role="alert" th:if="${error}" th:text="${error}"></div>
     <div class="table-responsive">
         <table class="table table-striped table-hover align-middle">
             <thead>
                 <tr>
                     <th>ID</th>
                     <th>Cliente</th>
-                    <th>Plan</th>
+                    <th>Planes</th>
                     <th>Inicio</th>
                     <th>Vencimiento</th>
+                    <th>Precio a pagar</th>
                     <th>Estado</th>
+                    <th>Renovación</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -26,10 +29,15 @@
                 <tr th:each="membresia : ${membresias}">
                     <td th:text="${membresia.id}">1</td>
                     <td th:text="${membresia.cliente != null ? membresia.cliente.nombre + ' ' + membresia.cliente.apellido : ''}">Cliente</td>
-                    <td th:text="${membresia.planesMembresia != null ? membresia.planesMembresia.nombre : ''}">Plan</td>
+                    <td>
+                        <span class="badge text-bg-light border me-1"
+                              th:each="plan : ${membresia.planes}" th:text="${plan.nombre}">Plan</span>
+                    </td>
                     <td th:text="${membresia.fechaInicio}">Inicio</td>
                     <td th:text="${membresia.fechaVencimiento}">Vencimiento</td>
+                    <td th:text="${'Gs. ' + membresia.precioAPagar}">0</td>
                     <td th:text="${membresia.estado == 1 ? 'Activa' : (membresia.estado == 2 ? 'Vencida' : 'Congelada')}">Activa</td>
+                    <td th:text="${membresia.renovacionAutomatica} ? 'Mensual' : 'No'">No</td>
                     <td>
                         <a class="btn btn-sm btn-outline-primary"
                            th:href="@{/membresias/{id}/editar(id=${membresia.id})}">Editar</a>

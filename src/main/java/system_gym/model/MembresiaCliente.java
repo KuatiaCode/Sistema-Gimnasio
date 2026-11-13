@@ -1,7 +1,10 @@
 package system_gym.model;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.LinkedHashSet;
+import java.util.Set;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -11,12 +14,15 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
 /**
- * Membresía contratada por un cliente para un plan concreto.
- * Guarda la vigencia, el estado y el precio acordado en el momento de la compra.
+ * Membresía contratada por un cliente para uno o varios planes.
+ * Guarda la vigencia, el estado y el total acordado en el momento de la compra.
  */
 @Entity
 @Table(name = "tb_membresias_clientes")
@@ -27,27 +33,32 @@ public class MembresiaCliente {
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_cliente", nullable = false, 
+    @JoinColumn(name = "id_cliente", nullable = false,
                 foreignKey = @ForeignKey(name = "fk_membresias_cliente"))
     private Cliente cliente;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_plan", nullable = false, 
-                foreignKey = @ForeignKey(name = "fk_membresias_plan"))
-    private PlanesMembresia planesMembresia;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "tb_membresias_planes",
+            joinColumns = @JoinColumn(name = "id_membresia"),
+            inverseJoinColumns = @JoinColumn(name = "id_plan"),
+            uniqueConstraints = @UniqueConstraint(name = "uq_membresia_plan",
+                    columnNames = {"id_membresia", "id_plan"}))
+    private Set<PlanesMembresia> planes = new LinkedHashSet<>();
 
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @Column(name = "fecha_inicio", nullable = false)
     private LocalDate fechaInicio;
 
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @Column(name = "fecha_vencimiento", nullable = false)
     private LocalDate fechaVencimiento;
 
     @Column(name = "estado", nullable = false)
     private Short estado; // 1: Activa, 2: Vencida, 3: Congelada
 
-    // Conserva el precio histórico aunque luego cambie el precio del plan.
-    @Column(name = "precio_pagado", precision = 10, scale = 2)
-    private BigDecimal precioPagado;
+    // Total histórico calculado con los precios de los planes al crear la membresía.
+    @Column(name = "precio_a_pagar", nullable = false)
+    private Long precioAPagar = 0L;
 
     @Column(name = "renovacion_automatica", nullable = false)
     private Boolean renovacionAutomatica = false;
@@ -56,70 +67,90 @@ public class MembresiaCliente {
     private String observaciones;
 
     public MembresiaCliente() {}
-    public MembresiaCliente(Integer id, Cliente cliente, PlanesMembresia planesMembresia, LocalDate fechaInicio, LocalDate fechaVencimiento, Short estado, BigDecimal precioPagado, Boolean renovacionAutomatica, String observaciones) {
+
+    public MembresiaCliente(Integer id, Cliente cliente, Set<PlanesMembresia> planes,
+            LocalDate fechaInicio, LocalDate fechaVencimiento, Short estado, Long precioAPagar,
+            Boolean renovacionAutomatica, String observaciones) {
         this.id = id;
         this.cliente = cliente;
-        this.planesMembresia = planesMembresia;
+        this.planes = planes;
         this.fechaInicio = fechaInicio;
         this.fechaVencimiento = fechaVencimiento;
         this.estado = estado;
-        this.precioPagado = precioPagado;
+        this.precioAPagar = precioAPagar;
         this.renovacionAutomatica = renovacionAutomatica;
         this.observaciones = observaciones;
     }
+
     public Integer getId() {
         return id;
     }
+
     public void setId(Integer id) {
         this.id = id;
     }
+
     public Cliente getCliente() {
         return cliente;
     }
+
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
-    public PlanesMembresia getPlanesMembresia() {
-        return planesMembresia;
+
+    public Set<PlanesMembresia> getPlanes() {
+        return planes;
     }
-    public void setPlanesMembresia(PlanesMembresia planesMembresia) {
-        this.planesMembresia = planesMembresia;
+
+    public void setPlanes(Set<PlanesMembresia> planes) {
+        this.planes = planes;
     }
+
     public LocalDate getFechaInicio() {
         return fechaInicio;
     }
+
     public void setFechaInicio(LocalDate fechaInicio) {
         this.fechaInicio = fechaInicio;
     }
+
     public LocalDate getFechaVencimiento() {
         return fechaVencimiento;
     }
+
     public void setFechaVencimiento(LocalDate fechaVencimiento) {
         this.fechaVencimiento = fechaVencimiento;
     }
+
     public Short getEstado() {
         return estado;
     }
+
     public void setEstado(Short estado) {
-        this.estado = estado;   
+        this.estado = estado;
     }
-    public BigDecimal getPrecioPagado() {
-        return precioPagado;
+
+    public Long getPrecioAPagar() {
+        return precioAPagar;
     }
-    public void setPrecioPagado(BigDecimal precioPagado) {
-        this.precioPagado = precioPagado;
+
+    public void setPrecioAPagar(Long precioAPagar) {
+        this.precioAPagar = precioAPagar;
     }
+
     public Boolean getRenovacionAutomatica() {
         return renovacionAutomatica;
     }
+
     public void setRenovacionAutomatica(Boolean renovacionAutomatica) {
         this.renovacionAutomatica = renovacionAutomatica;
     }
+
     public String getObservaciones() {
         return observaciones;
     }
+
     public void setObservaciones(String observaciones) {
         this.observaciones = observaciones;
     }
-    
 }

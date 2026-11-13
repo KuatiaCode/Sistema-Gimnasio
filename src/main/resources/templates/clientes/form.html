@@ -5,6 +5,7 @@
 <nav th:replace="~{fragments/nav :: nav}"></nav>
 <main class="container">
     <h1 class="h3 mb-3" th:text="${cliente.id == null ? 'Nuevo cliente' : 'Editar cliente'}">Cliente</h1>
+    <div class="alert alert-danger" role="alert" th:if="${error}" th:text="${error}"></div>
     <!-- El mismo formulario sirve para crear y editar según el id oculto. -->
     <form class="row g-3" th:object="${cliente}" th:action="@{/clientes}" method="post">
         <input type="hidden" th:field="*{id}">
@@ -31,19 +32,20 @@
         </div>
         <div class="col-md-4">
             <label class="form-label" for="fechaRegistro">Fecha de registro</label>
-            <input class="form-control" id="fechaRegistro" type="date" th:field="*{fechaRegistro}" required>
+            <input class="form-control" id="fechaRegistro" type="datetime-local"
+                   th:field="*{fechaRegistro}" readonly>
+            <div class="form-text">Se completa automáticamente con la fecha y hora actual.</div>
         </div>
         <div class="col-md-4">
             <label class="form-label" for="sexo">Sexo</label>
             <select class="form-select" id="sexo" th:field="*{sexo}" required>
                 <option value="0">Masculino</option>
                 <option value="1">Femenino</option>
-                <option value="2">Otro</option>
             </select>
         </div>
         <div class="col-md-4">
             <label class="form-label" for="ciudad">Ciudad</label>
-            <input class="form-control" id="ciudad" type="text" th:field="*{ciudad}">
+            <input class="form-control" id="ciudad" type="text" th:field="*{ciudad}" required>
         </div>
         <div class="col-12">
             <label class="form-label" for="direccion">Dirección</label>
@@ -51,15 +53,17 @@
         </div>
         <div class="col-md-6">
             <label class="form-label" for="contactoEmergencia">Contacto de emergencia</label>
-            <input class="form-control" id="contactoEmergencia" type="text" th:field="*{contactoEmergencia}">
+            <input class="form-control" id="contactoEmergencia" type="text"
+                   th:field="*{contactoEmergencia}" placeholder="Nombre + Familiar/Conocido" required>
         </div>
         <div class="col-md-6">
             <label class="form-label" for="telefonoEmergencia">Teléfono de emergencia</label>
-            <input class="form-control" id="telefonoEmergencia" type="text" th:field="*{telefonoEmergencia}">
+            <input class="form-control" id="telefonoEmergencia" type="text"
+                   th:field="*{telefonoEmergencia}" required>
         </div>
         <div class="col-md-6">
             <label class="form-label" for="ocupacion">Ocupación</label>
-            <input class="form-control" id="ocupacion" type="text" th:field="*{ocupacion}">
+            <input class="form-control" id="ocupacion" type="text" th:field="*{ocupacion}" required>
         </div>
         <div class="col-12">
             <label class="form-label" for="observacion">Observación</label>

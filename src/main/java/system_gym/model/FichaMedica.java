@@ -1,7 +1,9 @@
 package system_gym.model;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -36,8 +38,10 @@ public class FichaMedica {
                 foreignKey = @ForeignKey(name = "fk_evaluaciones_entrenador"))
     private Usuario entrenador;
 
+    // La fecha y hora se registran automáticamente al crear la ficha.
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     @Column(name = "fecha", nullable = false)
-    private LocalDate fecha = LocalDate.now();
+    private LocalDateTime fecha = LocalDateTime.now();
 
     @Column(name = "peso", precision = 5, scale = 2, nullable = false)
     private BigDecimal peso;
@@ -76,9 +80,9 @@ public class FichaMedica {
     @Column(name = "lesiones", columnDefinition = "TEXT", nullable = false)
     private String lesiones;
 
-    // Por defecto se permite entrenar hasta que la evaluación indique lo contrario.
+    // El entrenador debe marcar la casilla para confirmar la aptitud física.
     @Column(name = "apto_entrenar", nullable = false)
-    private Boolean aptoEntrenar = true; 
+    private Boolean aptoEntrenar = false;
 
     @Column(name = "observacion", columnDefinition = "TEXT")
     private String observacion;
@@ -123,10 +127,10 @@ public class FichaMedica {
     public void setEntrenador(Usuario entrenador) {
         this.entrenador = entrenador;
     }
-    public LocalDate getFecha() {
+    public LocalDateTime getFecha() {
         return fecha;
     }
-    public void setFecha(LocalDate fecha) {
+    public void setFecha(LocalDateTime fecha) {
         this.fecha = fecha;
     }
     public BigDecimal getPeso() {

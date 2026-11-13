@@ -1,8 +1,10 @@
 package system_gym.model;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -58,25 +60,26 @@ public class Cliente {
     @Column(name = "correo", length = 254, nullable = false)
     private String correo;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     @Column(name = "fecha_registro", nullable = false)
-    private LocalDate fechaRegistro = LocalDate.now();
+    private LocalDateTime fechaRegistro = LocalDateTime.now();
 
     @Column(name = "sexo", nullable = false)
-    private Short sexo; // 0: Masculino, 1: Femenino, u otros códigos paramétricos
+    private Short sexo; // 0: Masculino, 1: Femenino
 
     @Column(name = "direccion", length = 255, nullable = false)
     private String direccion;
 
-    @Column(name = "ciudad", length = 100)
+    @Column(name = "ciudad", length = 100, nullable = false)
     private String ciudad;
 
-    @Column(name = "contacto_emergencia", length = 45)
+    @Column(name = "contacto_emergencia", length = 45, nullable = false)
     private String contactoEmergencia;
 
-    @Column(name = "telefono_emergencia", length = 20)
+    @Column(name = "telefono_emergencia", length = 20, nullable = false)
     private String telefonoEmergencia;
 
-    @Column(name = "ocupacion", length = 100)
+    @Column(name = "ocupacion", length = 100, nullable = false)
     private String ocupacion;
 
     @Column(name = "fotografia", length = 255)
@@ -86,7 +89,7 @@ public class Cliente {
     private String observacion;
 
     public Cliente() {}
-    public Cliente(Integer idCliente, String nombre, String apellido, String telefono, String documento, String correo, LocalDate fechaRegistro, Short sexo, String direccion, String ciudad, String contactoEmergencia, String telefonoEmergencia, String ocupacion, String fotografia, String observacion) {
+    public Cliente(Integer idCliente, String nombre, String apellido, String telefono, String documento, String correo, LocalDateTime fechaRegistro, Short sexo, String direccion, String ciudad, String contactoEmergencia, String telefonoEmergencia, String ocupacion, String fotografia, String observacion) {
         this.id = idCliente;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -139,10 +142,10 @@ public class Cliente {
     public void setCorreo(String correo) {
         this.correo = correo;
     }
-    public LocalDate getFechaRegistro() {
+    public LocalDateTime getFechaRegistro() {
         return fechaRegistro;
     }
-    public void setFechaRegistro(LocalDate fechaRegistro) {
+    public void setFechaRegistro(LocalDateTime fechaRegistro) {
         this.fechaRegistro = fechaRegistro;
     }
     public Short getSexo() {

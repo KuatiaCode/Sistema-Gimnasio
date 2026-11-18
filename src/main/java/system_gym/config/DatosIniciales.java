@@ -58,7 +58,6 @@ public class DatosIniciales implements CommandLineRunner {
             usuario.setCorreo(adminCorreo);
             usuario.setPasswordHash(passwordEncoder.encode(adminPassword));
             usuario.setRoles(admin);
-            usuario.setDosPasosActivo(false);
             usuario.setIntentosFallidos(0);
             usuarioRepository.save(usuario);
             log.info("Usuario administrador inicial creado: {}", adminUsuario);

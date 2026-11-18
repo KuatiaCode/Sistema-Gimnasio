@@ -19,7 +19,6 @@
                     <th>Usuario</th>
                     <th>Correo</th>
                     <th>Rol</th>
-                    <th>Dos pasos</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -29,7 +28,6 @@
                     <td th:text="${usuario.usuario}">Usuario</td>
                     <td th:text="${usuario.correo}">Correo</td>
                     <td th:text="${usuario.roles != null ? usuario.roles.nombre : ''}">Rol</td>
-                    <td th:text="${usuario.dosPasosActivo} ? 'Sí' : 'No'">No</td>
                     <td>
                         <a class="btn btn-sm btn-outline-primary"
                            th:href="@{/configuracion/usuarios/{id}/editar(id=${usuario.id})}">Editar</a>

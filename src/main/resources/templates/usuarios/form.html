@@ -35,12 +35,6 @@
                         th:selected="${usuarioForm.roles != null and usuarioForm.roles.id == rol.id}"></option>
             </select>
         </div>
-        <div class="col-md-6 d-flex align-items-end">
-            <div class="form-check">
-                <input class="form-check-input" id="dosPasosActivo" type="checkbox" th:field="*{dosPasosActivo}">
-                <label class="form-check-label" for="dosPasosActivo">Dos pasos activo</label>
-            </div>
-        </div>
         <div class="col-12">
             <button class="btn btn-primary" type="submit">Guardar</button>
             <a class="btn btn-secondary" th:href="@{/configuracion/usuarios}">Cancelar</a>

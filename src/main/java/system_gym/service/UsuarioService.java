@@ -63,7 +63,6 @@ public class UsuarioService {
                 throw new IllegalArgumentException("La contraseña es obligatoria para un usuario nuevo.");
             }
             usuario.setPasswordHash(passwordEncoder.encode(passwordPlano));
-            usuario.setDosPasosActivo(Boolean.TRUE.equals(usuario.getDosPasosActivo()));
             usuario.setIntentosFallidos(0);
         } else {
             Usuario existente = buscarPorId(usuario.getId());

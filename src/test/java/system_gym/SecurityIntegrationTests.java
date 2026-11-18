@@ -60,7 +60,6 @@ class SecurityIntegrationTests {
         usuario.setCorreo("usuario_prueba@local");
         usuario.setPasswordHash(passwordEncoder.encode(PASSWORD_PRUEBA));
         usuario.setRoles(rol);
-        usuario.setDosPasosActivo(false);
         usuario.setIntentosFallidos(0);
         usuarioRepository.save(usuario);
     }

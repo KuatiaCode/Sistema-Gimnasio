@@ -43,9 +43,6 @@ public class Usuario {
     @Column(name = "correo", length = 255, nullable = false)
     private String correo;
 
-    @Column(name = "dos_pasos_activo", nullable = false)
-    private Boolean dosPasosActivo = false;
-
     // Contador y fecha límite para futuras políticas de bloqueo de cuenta.
     @Column(name = "intentos_fallidos", nullable = false)
     private Integer intentosFallidos = 0;
@@ -58,13 +55,12 @@ public class Usuario {
 
     public Usuario() {}
 
-    public Usuario(Integer id, Roles roles, String usuario, String passwordHash, String correo, Boolean dosPasosActivo, Integer intentosFallidos, LocalDateTime bloqueadoHasta, LocalDateTime ultimoAcceso) {
+    public Usuario(Integer id, Roles roles, String usuario, String passwordHash, String correo, Integer intentosFallidos, LocalDateTime bloqueadoHasta, LocalDateTime ultimoAcceso) {
         this.id = id;
         this.roles = roles;
         this.usuario = usuario;
         this.passwordHash = passwordHash;
         this.correo = correo;
-        this.dosPasosActivo = dosPasosActivo;
         this.intentosFallidos = intentosFallidos;
         this.bloqueadoHasta = bloqueadoHasta;
         this.ultimoAcceso = ultimoAcceso;
@@ -99,12 +95,6 @@ public class Usuario {
     public void setCorreo(String correo) {
         this.correo = correo;
     }
-    public Boolean getDosPasosActivo() {
-        return dosPasosActivo;
-    }
-    public void setDosPasosActivo(Boolean dosPasosActivo) {
-        this.dosPasosActivo = dosPasosActivo;   
-    }   
     public Integer getIntentosFallidos() {
         return intentosFallidos;
     }

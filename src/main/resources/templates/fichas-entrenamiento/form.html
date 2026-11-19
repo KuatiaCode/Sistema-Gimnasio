@@ -123,6 +123,8 @@
         </div>
         <div class="col-12">
             <button class="btn btn-primary" type="submit">Guardar</button>
+            <a class="btn btn-outline-secondary" th:if="${ficha.id != null}"
+               th:href="@{/fichas-entrenamiento/{id}/pdf(id=${ficha.id})}">Descargar PDF</a>
             <a class="btn btn-secondary" th:href="@{/fichas-entrenamiento}">Cancelar</a>
         </div>
     </form>

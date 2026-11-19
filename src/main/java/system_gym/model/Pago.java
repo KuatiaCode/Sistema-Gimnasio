@@ -1,5 +1,6 @@
 package system_gym.model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -17,7 +18,7 @@ import jakarta.persistence.Table;
 
 /**
  * Pago realizado o pendiente de un cliente.
- * Puede asociarse a una membresía o registrarse de forma independiente.
+ * Siempre queda asociado a una membresía del mismo cliente.
  */
 @Entity
 @Table(name = "tb_pago")
@@ -32,9 +33,8 @@ public class Pago {
                 foreignKey = @ForeignKey(name = "fk_pagos_cliente"))
     private Cliente cliente;
 
-    // La membresía es opcional para permitir pagos sueltos.
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_membresia", nullable = true,
+    @JoinColumn(name = "id_membresia", nullable = false,
                 foreignKey = @ForeignKey(name = "fk_pagos_membresia"))
     private MembresiaCliente membresia;
 
@@ -51,13 +51,18 @@ public class Pago {
     @Column(name = "fecha_pago")
     private LocalDateTime fechaPago;
 
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @Column(name = "fecha_vencimiento", nullable = false)
+    private LocalDate fechaVencimiento;
+
     @Column(name = "descuento_aplicado", nullable = false)
     private Long descuentoAplicado = 0L;
 
     public Pago() {}
 
     public Pago(Integer id, Cliente cliente, MembresiaCliente membresia, Short estadoPago,
-            Long montoTotal, Short metodoPago, LocalDateTime fechaPago, Long descuentoAplicado) {
+            Long montoTotal, Short metodoPago, LocalDateTime fechaPago, LocalDate fechaVencimiento,
+            Long descuentoAplicado) {
         this.id = id;
         this.cliente = cliente;
         this.membresia = membresia;
@@ -65,6 +70,7 @@ public class Pago {
         this.montoTotal = montoTotal;
         this.metodoPago = metodoPago;
         this.fechaPago = fechaPago;
+        this.fechaVencimiento = fechaVencimiento;
         this.descuentoAplicado = descuentoAplicado;
     }
 
@@ -122,6 +128,14 @@ public class Pago {
 
     public void setFechaPago(LocalDateTime fechaPago) {
         this.fechaPago = fechaPago;
+    }
+
+    public LocalDate getFechaVencimiento() {
+        return fechaVencimiento;
+    }
+
+    public void setFechaVencimiento(LocalDate fechaVencimiento) {
+        this.fechaVencimiento = fechaVencimiento;
     }
 
     public Long getDescuentoAplicado() {

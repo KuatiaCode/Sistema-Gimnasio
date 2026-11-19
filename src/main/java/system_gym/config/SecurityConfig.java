@@ -33,10 +33,17 @@ public class SecurityConfig {
                         .permitAll()
                         .requestMatchers("/configuracion/**", "/roles/**", "/usuarios/**")
                         .hasRole("ADMIN")
+                        .requestMatchers("/reportes/personalizado", "/reportes/personalizado/**",
+                                "/reportes/auditoria", "/reportes/auditoria/**")
+                        .hasRole("ADMIN")
+                        .requestMatchers("/fallas/*/editar")
+                        .hasRole("ADMIN")
                         .requestMatchers("/membresias/**", "/planes/**", "/pagos/**")
                         .hasAnyRole("ADMIN", "RECEPCIONISTA")
                         .requestMatchers("/fichas-entrenamiento/**", "/fichas-medica/**")
                         .hasAnyRole("ADMIN", "ENTRENADOR")
+                        .requestMatchers("/fallas/**", "/reportes/**")
+                        .hasAnyRole("ADMIN", "RECEPCIONISTA", "ENTRENADOR")
                         .anyRequest().authenticated())
                 .formLogin(login -> login
                         .loginPage("/login")

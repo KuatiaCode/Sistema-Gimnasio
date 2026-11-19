@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:replace="~{fragments/head :: head('Historial de membresía')}"></head>
+<body>
+<nav th:replace="~{fragments/nav :: nav}"></nav>
+<main class="container">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="h3 mb-0">Historial de membresía #<span th:text="${membresia.id}">1</span></h1>
+        <div class="d-flex gap-2">
+            <a class="btn btn-outline-secondary" th:href="@{/membresias}">Volver</a>
+            <a class="btn btn-outline-primary"
+               th:href="@{/membresias/{id}/editar(id=${membresia.id})}">Editar datos</a>
+        </div>
+    </div>
+
+    <div class="alert alert-success" role="alert" th:if="${mensaje}">
+        <span th:text="${mensaje}">Operación realizada.</span>
+        <a class="alert-link" th:if="${eventoId != null}"
+           th:href="@{/membresias/{id}/comprobante/{eventoId}(id=${membresia.id}, eventoId=${eventoId}, inline=true)}"
+           target="_blank" rel="noopener">Ver comprobante</a>
+    </div>
+    <div class="alert alert-danger" role="alert" th:if="${error}" th:text="${error}"></div>
+
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-3">
+                <div>
+                    <h2 class="h5 mb-1"
+                        th:text="${membresia.cliente != null ? membresia.cliente.nombre + ' ' + membresia.cliente.apellido : 'Cliente'}">
+                        Cliente
+                    </h2>
+                    <p class="text-muted mb-0"
+                       th:text="${membresia.cliente != null ? 'Documento: ' + membresia.cliente.documento : ''}">
+                        Documento
+                    </p>
+                </div>
+                <span class="badge fs-6"
+                      th:classappend="${membresia.estado == 1 ? 'text-bg-success' : (membresia.estado == 2 ? 'text-bg-danger' : (membresia.estado == 3 ? 'text-bg-warning' : 'text-bg-secondary'))}"
+                      th:text="${membresia.estadoTexto}">Activa</span>
+            </div>
+
+            <dl class="row mb-0">
+                <dt class="col-sm-3">Planes</dt>
+                <dd class="col-sm-9">
+                    <span class="badge text-bg-light border me-1"
+                          th:each="plan : ${membresia.planes}" th:text="${plan.nombre}">Plan</span>
+                </dd>
+                <dt class="col-sm-3">Inicio</dt>
+                <dd class="col-sm-9" th:text="${membresia.fechaInicio}">2026-01-01</dd>
+                <dt class="col-sm-3">Vencimiento</dt>
+                <dd class="col-sm-9" th:text="${membresia.fechaVencimiento}">2026-02-01</dd>
+                <dt class="col-sm-3">Precio a pagar</dt>
+                <dd class="col-sm-9"
+                    th:text="${'Gs. ' + #numbers.formatInteger(membresia.precioAPagar, 1, 'POINT')}">Gs. 0</dd>
+                <dt class="col-sm-3">Días congelados acumulados</dt>
+                <dd class="col-sm-9" th:text="${membresia.diasCongelados != null ? membresia.diasCongelados : 0}">0</dd>
+                <dt class="col-sm-3" th:if="${membresia.fechaCancelacion != null}">Cancelación</dt>
+                <dd class="col-sm-9" th:if="${membresia.fechaCancelacion != null}"
+                    th:text="${membresia.fechaCancelacion + ' - ' + (membresia.motivoCancelacion != null ? membresia.motivoCancelacion : '')}">
+                    Fecha y motivo
+                </dd>
+                <dt class="col-sm-3" th:if="${membresia.fechaCongelacionInicio != null}">Congelación actual</dt>
+                <dd class="col-sm-9" th:if="${membresia.fechaCongelacionInicio != null}"
+                    th:text="${membresia.fechaCongelacionInicio + ' al ' + membresia.fechaCongelacionFin + ' - ' + (membresia.motivoCongelacion != null ? membresia.motivoCongelacion : '')}">
+                    Fechas y motivo
+                </dd>
+            </dl>
+        </div>
+    </div>
+
+    <div class="d-flex flex-wrap gap-2 mb-3">
+        <a class="btn btn-success"
+           th:if="${membresia.estado == 1 or membresia.estado == 2}"
+           th:href="@{/membresias/{id}/renovar(id=${membresia.id})}">Renovar</a>
+        <a class="btn btn-warning"
+           th:if="${membresia.estado == 1}"
+           th:href="@{/membresias/{id}/congelar(id=${membresia.id})}">Congelar</a>
+        <form th:if="${membresia.estado == 3}"
+              th:action="@{/membresias/{id}/descongelar(id=${membresia.id})}" method="post"
+              onsubmit="return confirm('¿Reactivar la membresía y ajustar la vigencia?');">
+            <button class="btn btn-success" type="submit">Descongelar</button>
+        </form>
+        <a class="btn btn-outline-danger"
+           th:if="${membresia.estado != 4}"
+           th:href="@{/membresias/{id}/cancelar(id=${membresia.id})}">Cancelar membresía</a>
+    </div>
+
+    <h2 class="h4 mb-3">Movimientos</h2>
+    <div class="table-responsive">
+        <table class="table table-striped table-hover align-middle">
+            <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Tipo</th>
+                    <th>Motivo</th>
+                    <th>Inicio</th>
+                    <th>Fin</th>
+                    <th>Vencimiento anterior</th>
+                    <th>Vencimiento nuevo</th>
+                    <th>Días</th>
+                    <th>Monto</th>
+                    <th>Responsable</th>
+                    <th>Comprobante</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="evento : ${eventos}">
+                    <td th:text="${#temporals.format(evento.fechaEvento, 'dd/MM/yyyy HH:mm')}">Fecha</td>
+                    <td th:text="${evento.tipo.texto}">Tipo</td>
+                    <td th:text="${evento.motivo}">Motivo</td>
+                    <td th:text="${evento.fechaInicio != null ? #temporals.format(evento.fechaInicio, 'dd/MM/yyyy') : ''}">Inicio</td>
+                    <td th:text="${evento.fechaFin != null ? #temporals.format(evento.fechaFin, 'dd/MM/yyyy') : ''}">Fin</td>
+                    <td th:text="${evento.fechaVencimientoAnterior != null ? #temporals.format(evento.fechaVencimientoAnterior, 'dd/MM/yyyy') : ''}">Anterior</td>
+                    <td th:text="${evento.fechaVencimientoNueva != null ? #temporals.format(evento.fechaVencimientoNueva, 'dd/MM/yyyy') : ''}">Nuevo</td>
+                    <td th:text="${evento.dias != null ? evento.dias : ''}">0</td>
+                    <td th:text="${evento.monto != null ? 'Gs. ' + #numbers.formatInteger(evento.monto, 1, 'POINT') : ''}">Gs. 0</td>
+                    <td th:text="${evento.responsable}">Responsable</td>
+                    <td>
+                        <a class="btn btn-sm btn-outline-secondary"
+                           th:href="@{/membresias/{id}/comprobante/{eventoId}(id=${membresia.id}, eventoId=${evento.id}, inline=true)}"
+                           target="_blank" rel="noopener">Ver PDF</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <p class="text-muted" th:if="${#lists.isEmpty(eventos)}">No hay movimientos registrados.</p>
+</main>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:replace="~{fragments/head :: head('Gestionar membresía')}"></head>
+<body>
+<nav th:replace="~{fragments/nav :: nav}"></nav>
+<main class="container">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="h3 mb-0"
+            th:text="${accion == 'renovar' ? 'Renovar membresía' : (accion == 'cancelar' ? 'Cancelar membresía' : 'Congelar membresía')}">
+            Gestionar membresía
+        </h1>
+        <a class="btn btn-outline-secondary"
+           th:href="@{/membresias/{id}/historial(id=${membresia.id})}">Volver al historial</a>
+    </div>
+
+    <div class="alert alert-danger" role="alert" th:if="${error}" th:text="${error}"></div>
+
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <h2 class="h5 mb-3">Membresía #<span th:text="${membresia.id}">1</span></h2>
+            <dl class="row mb-0">
+                <dt class="col-sm-3">Cliente</dt>
+                <dd class="col-sm-9"
+                    th:text="${membresia.cliente != null ? membresia.cliente.nombre + ' ' + membresia.cliente.apellido : ''}">
+                    Cliente
+                </dd>
+                <dt class="col-sm-3">Vencimiento actual</dt>
+                <dd class="col-sm-9" th:text="${membresia.fechaVencimiento}">2026-01-01</dd>
+                <dt class="col-sm-3">Estado</dt>
+                <dd class="col-sm-9" th:text="${membresia.estadoTexto}">Activa</dd>
+                <dt class="col-sm-3">Precio de referencia</dt>
+                <dd class="col-sm-9"
+                    th:text="${'Gs. ' + #numbers.formatInteger(membresia.precioAPagar, 1, 'POINT')}">Gs. 0</dd>
+            </dl>
+        </div>
+    </div>
+
+    <form class="card shadow-sm"
+          th:action="@{/membresias/{id}/{accion}(id=${membresia.id}, accion=${accion})}"
+          method="post">
+        <div class="card-body">
+            <div th:if="${accion == 'renovar'}">
+                <div class="mb-3">
+                    <label class="form-label" for="fechaVencimiento">Nueva fecha de vencimiento</label>
+                    <input class="form-control" id="fechaVencimiento" name="fechaVencimiento"
+                           type="date" th:value="${fechaSugerida}" required>
+                    <div class="form-text">Debe ser posterior a la fecha de vencimiento actual.</div>
+                </div>
+            </div>
+
+            <div th:if="${accion == 'cancelar'}">
+                <div class="mb-3">
+                    <label class="form-label" for="fechaCancelacion">Fecha de cancelación</label>
+                    <input class="form-control" id="fechaCancelacion" name="fechaCancelacion"
+                           type="date" th:value="${fechaSugerida}" required>
+                </div>
+                <div class="alert alert-warning">
+                    La membresía quedará inactiva. Si estaba congelada, se ajustará la vigencia antes de cancelar.
+                </div>
+            </div>
+
+            <div th:if="${accion == 'congelar'}">
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label" for="fechaInicio">Inicio de la congelación</label>
+                        <input class="form-control" id="fechaInicio" name="fechaInicio"
+                               type="date" th:value="${fechaSugerida}" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label" for="fechaFin">Fin de la congelación</label>
+                        <input class="form-control" id="fechaFin" name="fechaFin"
+                               type="date" th:value="${fechaFinSugerida}" required>
+                    </div>
+                </div>
+                <div class="alert alert-info">
+                    La fecha de vencimiento se extenderá automáticamente por los días de congelación al reactivar la membresía.
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="motivo">Motivo</label>
+                <textarea class="form-control" id="motivo" name="motivo" rows="3" required></textarea>
+            </div>
+
+            <button class="btn btn-primary" type="submit">Confirmar</button>
+            <a class="btn btn-secondary"
+               th:href="@{/membresias/{id}/historial(id=${membresia.id})}">Cancelar</a>
+        </div>
+    </form>
+</main>
+</body>
+</html>

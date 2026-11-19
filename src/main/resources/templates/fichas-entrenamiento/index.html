@@ -7,7 +7,10 @@
     <!-- Fichas de entrenamiento asignadas a clientes y entrenadores. -->
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h1 class="h3">Fichas de entrenamiento</h1>
-        <a class="btn btn-primary" th:href="@{/fichas-entrenamiento/nuevo}">Nueva ficha</a>
+        <div class="d-flex gap-2">
+            <a class="btn btn-outline-secondary" th:href="@{/reportes/entrenamientos}">Reporte</a>
+            <a class="btn btn-primary" th:href="@{/fichas-entrenamiento/nuevo}">Nueva ficha</a>
+        </div>
     </div>
     <div class="alert alert-danger" role="alert" th:if="${error}" th:text="${error}"></div>
     <div class="table-responsive">
@@ -43,6 +46,8 @@
                     <td th:text="${#temporals.format(ficha.fechaCreacion, 'dd/MM/yyyy HH:mm')}">Fecha</td>
                     <td th:text="${ficha.objetivo}">Objetivo</td>
                     <td>
+                        <a class="btn btn-sm btn-outline-secondary"
+                           th:href="@{/fichas-entrenamiento/{id}/pdf(id=${ficha.id})}">PDF</a>
                         <a class="btn btn-sm btn-outline-primary"
                            th:href="@{/fichas-entrenamiento/{id}/editar(id=${ficha.id})}">Editar</a>
                         <form class="d-inline" th:action="@{/fichas-entrenamiento/{id}/eliminar(id=${ficha.id})}"

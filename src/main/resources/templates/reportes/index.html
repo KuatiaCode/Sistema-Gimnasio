@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:replace="~{fragments/head :: head('Reportes')}"></head>
+<body>
+<nav th:replace="~{fragments/nav :: nav}"></nav>
+<main class="container">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+            <h1 class="h3 mb-1">Reportes</h1>
+            <p class="text-muted mb-0">Consulte, filtre y exporte la información del gimnasio.</p>
+        </div>
+        <a class="btn btn-outline-primary" th:if="${esAdmin}" th:href="@{/reportes/personalizado}">
+            Reporte personalizado
+        </a>
+    </div>
+
+    <div class="row g-3">
+        <div class="col-md-6 col-xl-4" th:each="reporte : ${reportes}">
+            <a class="card h-100 text-decoration-none text-reset shadow-sm"
+               th:href="@{/reportes/{slug}(slug=${reporte.slug})}">
+                <div class="card-body">
+                    <h2 class="h5" th:text="${reporte.titulo}">Reporte</h2>
+                    <p class="text-muted mb-0">Previsualice y exporte en CSV, XLSX o PDF.</p>
+                </div>
+            </a>
+        </div>
+    </div>
+</main>
+</body>
+</html>

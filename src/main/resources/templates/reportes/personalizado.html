@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:replace="~{fragments/head :: head('Reporte personalizado')}"></head>
+<body>
+<nav th:replace="~{fragments/nav :: nav}"></nav>
+<main class="container-fluid px-4">
+    <div class="d-flex justify-content-between align-items-start mb-3">
+        <div>
+            <a class="small text-decoration-none" th:href="@{/reportes}">Volver a reportes</a>
+            <h1 class="h3 mb-1">Reporte personalizado</h1>
+            <p class="text-muted mb-0" th:text="${reporte.subtitulo}">Filtros</p>
+        </div>
+        <div class="btn-group" role="group" aria-label="Exportar reporte">
+            <a class="btn btn-outline-secondary"
+               th:href="@{/reportes/personalizado/exportar(formato='csv', tipoPersonalizado=${filtro.tipoPersonalizado}, columnas=${filtro.columnas}, fechaDesde=${filtro.fechaDesde}, fechaHasta=${filtro.fechaHasta}, estado=${filtro.estado}, clienteId=${filtro.clienteId}, metodoPago=${filtro.metodoPago}, prioridad=${filtro.prioridad}, responsableId=${filtro.responsableId}, texto=${filtro.texto})}">
+                CSV
+            </a>
+            <a class="btn btn-outline-success"
+               th:href="@{/reportes/personalizado/exportar(formato='xlsx', tipoPersonalizado=${filtro.tipoPersonalizado}, columnas=${filtro.columnas}, fechaDesde=${filtro.fechaDesde}, fechaHasta=${filtro.fechaHasta}, estado=${filtro.estado}, clienteId=${filtro.clienteId}, metodoPago=${filtro.metodoPago}, prioridad=${filtro.prioridad}, responsableId=${filtro.responsableId}, texto=${filtro.texto})}">
+                XLSX
+            </a>
+            <a class="btn btn-outline-danger" target="_blank"
+               th:href="@{/reportes/personalizado/exportar(formato='pdf', inline=true, tipoPersonalizado=${filtro.tipoPersonalizado}, columnas=${filtro.columnas}, fechaDesde=${filtro.fechaDesde}, fechaHasta=${filtro.fechaHasta}, estado=${filtro.estado}, clienteId=${filtro.clienteId}, metodoPago=${filtro.metodoPago}, prioridad=${filtro.prioridad}, responsableId=${filtro.responsableId}, texto=${filtro.texto})}">
+                Vista previa PDF
+            </a>
+            <a class="btn btn-outline-danger"
+               th:href="@{/reportes/personalizado/exportar(formato='pdf', tipoPersonalizado=${filtro.tipoPersonalizado}, columnas=${filtro.columnas}, fechaDesde=${filtro.fechaDesde}, fechaHasta=${filtro.fechaHasta}, estado=${filtro.estado}, clienteId=${filtro.clienteId}, metodoPago=${filtro.metodoPago}, prioridad=${filtro.prioridad}, responsableId=${filtro.responsableId}, texto=${filtro.texto})}">
+                PDF
+            </a>
+        </div>
+    </div>
+
+    <form class="card card-body shadow-sm mb-3" method="get"
+          th:action="@{/reportes/personalizado}" th:object="${filtro}">
+        <div class="row g-3 mb-2">
+            <div class="col-md-4">
+                <label class="form-label" for="tipoPersonalizado">Datos base</label>
+                <select class="form-select" id="tipoPersonalizado" th:field="*{tipoPersonalizado}"
+                        onchange="this.form.submit()">
+                    <option th:each="tipo : ${tiposPersonalizables}" th:value="${tipo.slug}"
+                            th:text="${tipo.titulo}"></option>
+                </select>
+            </div>
+        </div>
+        <p class="form-label mb-1">Columnas</p>
+        <div class="row g-2 mb-3">
+            <div class="col-md-3 col-xl-2" th:each="columna : ${columnasDisponibles}">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="columnas"
+                           th:id="${'columna-' + columna.clave}" th:value="${columna.clave}"
+                           th:checked="${#lists.isEmpty(filtro.columnas) or #lists.contains(filtro.columnas, columna.clave)}">
+                    <label class="form-check-label" th:for="${'columna-' + columna.clave}"
+                           th:text="${columna.titulo}">Columna</label>
+                </div>
+            </div>
+        </div>
+        <div th:replace="~{reportes/filtros :: filtros(${filtro}, ${clientes}, ${responsables}, ${#strings.toUpperCase(filtro.tipoPersonalizado)})}"></div>
+        <div class="mt-3">
+            <button class="btn btn-primary" type="submit">Aplicar filtros</button>
+            <a class="btn btn-outline-secondary" th:href="@{/reportes/personalizado}">Limpiar</a>
+        </div>
+    </form>
+
+    <div class="mb-3">
+        <span class="badge text-bg-light border me-1" th:each="linea : ${reporte.resumen}"
+              th:text="${linea}">Resumen</span>
+    </div>
+
+    <div th:replace="~{reportes/tabla :: tabla(${reporte})}"></div>
+    <p class="small text-muted mt-2"
+       th:text="${'Generado: ' + #temporals.format(reporte.generadoEn, 'dd/MM/yyyy HH:mm')}">Generado</p>
+</main>
+</body>
+</html>

@@ -22,6 +22,106 @@
     </section>
 
     <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="h4 mb-0">Resumen operativo</h2>
+    </div>
+
+    <div class="row g-3 mb-4" th:if="${esAdmin or esRecepcionista}">
+        <div class="col-sm-6 col-xl-3">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <p class="text-muted mb-1">Clientes</p>
+                    <p class="display-6 mb-0" th:text="${resumen.totalClientes}">0</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <p class="text-muted mb-1">Membresías activas</p>
+                    <p class="display-6 mb-0 text-success" th:text="${resumen.membresiasActivas}">0</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <p class="text-muted mb-1">Membresías vencidas</p>
+                    <p class="display-6 mb-0 text-danger" th:text="${resumen.membresiasVencidas}">0</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <p class="text-muted mb-1">Pagos vencidos</p>
+                    <p class="display-6 mb-0 text-danger" th:text="${resumen.pagosPendientesVencidos}">0</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <p class="text-muted mb-1">Monto adeudado</p>
+                    <p class="h3 mb-0 text-danger"
+                       th:text="${'Gs. ' + #numbers.formatInteger(resumen.montoAdeudado, 1, 'POINT')}">Gs. 0</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <p class="text-muted mb-1">Ingresos del mes</p>
+                    <p class="h3 mb-0 text-success"
+                       th:text="${'Gs. ' + #numbers.formatInteger(resumen.ingresosMes, 1, 'POINT')}">Gs. 0</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <p class="text-muted mb-1">Fallas abiertas</p>
+                    <p class="display-6 mb-0 text-warning" th:text="${resumen.fallasAbiertas}">0</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-3 mb-4" th:if="${esAdmin or esEntrenador}">
+        <div class="col-sm-6 col-xl-3">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <p class="text-muted mb-1">Evaluaciones del mes</p>
+                    <p class="display-6 mb-0" th:text="${resumen.evaluacionesMes}">0</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <p class="text-muted mb-1">Entrenamientos del mes</p>
+                    <p class="display-6 mb-0" th:text="${resumen.entrenamientosMes}">0</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <p class="text-muted mb-1">Clientes atendidos</p>
+                    <p class="display-6 mb-0" th:text="${resumen.clientesAtendidosMes}">0</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <p class="text-muted mb-1">Fallas abiertas</p>
+                    <p class="display-6 mb-0 text-warning" th:text="${resumen.fallasAbiertas}">0</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
         <h2 class="h4 mb-0">Accesos rápidos</h2>
     </div>
 
@@ -96,6 +196,24 @@
                     <span class="inicial-tarjeta">CF</span>
                     <h3 class="h5 mt-3">Configuración</h3>
                     <p class="text-muted mb-0">Actualizá los datos generales del gimnasio.</p>
+                </div>
+            </a>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <a class="card tarjeta-acceso h-100 text-decoration-none" th:href="@{/reportes}">
+                <div class="card-body">
+                    <span class="inicial-tarjeta">RE</span>
+                    <h3 class="h5 mt-3">Reportes</h3>
+                    <p class="text-muted mb-0">Consultá y exportá información en CSV, XLSX o PDF.</p>
+                </div>
+            </a>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <a class="card tarjeta-acceso h-100 text-decoration-none" th:href="@{/fallas}">
+                <div class="card-body">
+                    <span class="inicial-tarjeta">FA</span>
+                    <h3 class="h5 mt-3">Fallas</h3>
+                    <p class="text-muted mb-0">Registrá y seguí los problemas técnicos del gimnasio.</p>
                 </div>
             </a>
         </div>

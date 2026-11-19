@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:replace="~{fragments/head :: head('Falla')}"></head>
+<body>
+<nav th:replace="~{fragments/nav :: nav}"></nav>
+<main class="container">
+    <h1 class="h3 mb-3" th:text="${falla.id == null ? 'Nueva falla' : 'Editar falla'}">Falla</h1>
+    <form class="row g-3" th:object="${falla}" th:action="@{/fallas}" method="post" novalidate>
+        <div class="col-12">
+            <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors() or error != null}">
+                <p class="mb-1" th:if="${#fields.hasAnyErrors()}">Revisá los campos marcados.</p>
+                <ul class="mb-0" th:if="${#fields.hasGlobalErrors()}">
+                    <li th:each="err : ${#fields.globalErrors()}" th:text="${err}"></li>
+                </ul>
+                <p class="mb-0" th:if="${error}" th:text="${error}"></p>
+            </div>
+        </div>
+        <input type="hidden" th:field="*{id}">
+        <div class="col-md-6">
+            <label class="form-label" for="reportadoPor">Reportado por</label>
+            <input class="form-control" id="reportadoPor" type="text"
+                   th:value="${falla.reportadoPor}" readonly>
+            <div class="form-text">Se asigna automáticamente al usuario autenticado.</div>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label" for="areaEquipo">Área o equipo</label>
+            <input class="form-control" id="areaEquipo" type="text" th:field="*{areaEquipo}"
+                   th:classappend="${#fields.hasErrors('areaEquipo')} ? 'is-invalid'"
+                   required maxlength="100">
+            <div class="invalid-feedback" th:errors="*{areaEquipo}"></div>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label" for="prioridad">Prioridad</label>
+            <select class="form-select" id="prioridad" th:field="*{prioridad}"
+                    th:classappend="${#fields.hasErrors('prioridad')} ? 'is-invalid'" required>
+                <option value="1">Baja</option>
+                <option value="2">Media</option>
+                <option value="3">Alta</option>
+            </select>
+            <div class="invalid-feedback" th:errors="*{prioridad}"></div>
+        </div>
+        <div class="col-md-6" th:if="${esAdmin and falla.id != null}">
+            <label class="form-label" for="estado">Estado</label>
+            <select class="form-select" id="estado" th:field="*{estado}"
+                    th:classappend="${#fields.hasErrors('estado')} ? 'is-invalid'" required>
+                <option value="1">Abierta</option>
+                <option value="2">En proceso</option>
+                <option value="3">Resuelta</option>
+            </select>
+            <div class="invalid-feedback" th:errors="*{estado}"></div>
+        </div>
+        <div class="col-md-6" th:if="${esAdmin and falla.id != null}">
+            <label class="form-label" for="responsableId">Responsable de atención</label>
+            <select class="form-select" id="responsableId" name="responsableId">
+                <option value="">Sin asignar</option>
+                <option th:each="usuario : ${usuarios}" th:value="${usuario.id}"
+                        th:text="${usuario.usuario}"
+                        th:selected="${falla.responsableAtencion != null and falla.responsableAtencion.id == usuario.id}"></option>
+            </select>
+        </div>
+        <div class="col-12">
+            <label class="form-label" for="descripcion">Descripción</label>
+            <textarea class="form-control" id="descripcion" rows="4" th:field="*{descripcion}"
+                      th:classappend="${#fields.hasErrors('descripcion')} ? 'is-invalid'"
+                      required minlength="10" maxlength="1000"></textarea>
+            <div class="invalid-feedback" th:errors="*{descripcion}"></div>
+        </div>
+        <div class="col-12">
+            <label class="form-label" for="observacion">Observación</label>
+            <textarea class="form-control" id="observacion" rows="3" th:field="*{observacion}"
+                      th:classappend="${#fields.hasErrors('observacion')} ? 'is-invalid'"
+                      maxlength="1000"></textarea>
+            <div class="invalid-feedback" th:errors="*{observacion}"></div>
+        </div>
+        <div class="col-12">
+            <button class="btn btn-primary" type="submit">Guardar</button>
+            <a class="btn btn-secondary" th:href="@{/fallas}">Cancelar</a>
+        </div>
+    </form>
+</main>
+</body>
+</html>

@@ -39,6 +39,12 @@ public class UsuarioService {
                 .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado con id " + id));
     }
 
+    @Transactional(readOnly = true)
+    public Usuario buscarPorUsuario(String usuario) {
+        return usuarioRepository.findByUsuario(usuario)
+                .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado: " + usuario));
+    }
+
     @Transactional
     public Usuario guardar(Usuario usuario, String passwordPlano) {
         usuario.setUsuario(usuario.getUsuario().trim());

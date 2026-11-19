@@ -6,6 +6,14 @@
 <main class="container">
     <h1 class="h3 mb-3" th:text="${membresia.id == null ? 'Nueva membresía' : 'Editar membresía'}">Membresía</h1>
     <div class="alert alert-danger" role="alert" th:if="${error}" th:text="${error}"></div>
+    <div class="alert alert-warning" role="alert" th:if="${membresia.estado == 3}">
+        <span th:text="${'Membresía congelada del ' + membresia.fechaCongelacionInicio + ' al ' + membresia.fechaCongelacionFin + '.'}"></span>
+        <span th:if="${membresia.motivoCongelacion != null}" th:text="${' Motivo: ' + membresia.motivoCongelacion}"></span>
+    </div>
+    <div class="alert alert-secondary" role="alert" th:if="${membresia.estado == 4}">
+        <span th:text="${'Membresía inactiva desde ' + membresia.fechaCancelacion + '.'}"></span>
+        <span th:if="${membresia.motivoCancelacion != null}" th:text="${' Motivo: ' + membresia.motivoCancelacion}"></span>
+    </div>
     <!-- Los catálogos se envían como ids; el controlador resuelve las entidades. -->
     <form class="row g-3" th:object="${membresia}" th:action="@{/membresias}" method="post"
           th:attr="data-nueva=${membresia.id == null}">
@@ -62,7 +70,11 @@
                 <option value="1">Activa</option>
                 <option value="2">Vencida</option>
                 <option value="3">Congelada</option>
+                <option value="4" th:if="${membresia.estado == 4}">Inactiva</option>
             </select>
+            <div class="form-text" th:if="${membresia.id != null}">
+                Para renovar, cancelar o congelar usá el historial de la membresía.
+            </div>
         </div>
         <div class="col-md-6 d-flex align-items-end">
             <div class="form-check">
@@ -79,6 +91,8 @@
         <div class="col-12">
             <button class="btn btn-primary" type="submit">Guardar</button>
             <a class="btn btn-secondary" th:href="@{/membresias}">Cancelar</a>
+            <a class="btn btn-outline-secondary" th:if="${membresia.id != null}"
+               th:href="@{/membresias/{id}/historial(id=${membresia.id})}">Historial</a>
         </div>
     </form>
 </main>

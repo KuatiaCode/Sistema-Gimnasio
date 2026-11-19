@@ -142,4 +142,30 @@ class SecurityIntegrationTests {
         mockMvc.perform(get("/pagos").with(user("entrenador").roles("ENTRENADOR")))
                 .andExpect(status().isForbidden());
     }
+
+    @Test
+    void recepcionistaPuedeAccederAReportes() throws Exception {
+        mockMvc.perform(get("/reportes").with(user("recepcion").roles("RECEPCIONISTA")))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void recepcionistaNoPuedeAccederAAuditoria() throws Exception {
+        mockMvc.perform(get("/reportes/auditoria").with(user("recepcion").roles("RECEPCIONISTA")))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    void entrenadorPuedeAccederAReporteDeEntrenamientos() throws Exception {
+        mockMvc.perform(get("/reportes/entrenamientos").with(user("entrenador").roles("ENTRENADOR")))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void entrenadorPuedeAccederAFallasPeroNoEditarlas() throws Exception {
+        mockMvc.perform(get("/fallas").with(user("entrenador").roles("ENTRENADOR")))
+                .andExpect(status().isOk());
+        mockMvc.perform(get("/fallas/1/editar").with(user("entrenador").roles("ENTRENADOR")))
+                .andExpect(status().isForbidden());
+    }
 }

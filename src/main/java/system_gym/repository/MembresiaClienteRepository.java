@@ -18,6 +18,10 @@ public interface MembresiaClienteRepository extends JpaRepository<MembresiaClien
     @EntityGraph(attributePaths = {"cliente", "planes"})
     List<MembresiaCliente> findAll();
 
+    @Override
+    @EntityGraph(attributePaths = {"cliente", "planes"})
+    Optional<MembresiaCliente> findById(Integer id);
+
     @EntityGraph(attributePaths = {"cliente", "planes"})
     List<MembresiaCliente> findByClienteIdOrderByFechaInicioDesc(Integer clienteId);
 
@@ -28,9 +32,11 @@ public interface MembresiaClienteRepository extends JpaRepository<MembresiaClien
     Optional<MembresiaCliente> findFirstByClienteIdAndEstadoOrderByFechaVencimientoDesc(
             Integer clienteId, Short estado);
 
-    boolean existsByClienteIdAndEstado(Integer clienteId, Short estado);
+    boolean existsByClienteIdAndEstadoAndFechaVencimientoGreaterThanEqual(
+            Integer clienteId, Short estado, LocalDate fecha);
 
-    boolean existsByClienteIdAndEstadoAndIdNot(Integer clienteId, Short estado, Integer id);
+    boolean existsByClienteIdAndEstadoAndFechaVencimientoGreaterThanEqualAndIdNot(
+            Integer clienteId, Short estado, LocalDate fecha, Integer id);
 
     boolean existsByPlanesId(Integer planId);
 

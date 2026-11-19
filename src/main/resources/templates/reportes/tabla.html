@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<body>
+<div th:fragment="tabla(reporte)">
+    <div class="table-responsive">
+        <table class="table table-sm table-striped table-hover align-middle">
+            <thead>
+                <tr>
+                    <th th:each="columna : ${reporte.columnas}" th:text="${columna.titulo}">Columna</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="fila : ${reporte.filas}">
+                    <td th:each="columna : ${reporte.columnas}"
+                        th:text="${T(system_gym.reporte.ReporteFormatoUtil).texto(fila.get(columna.clave), columna.tipo)}">Valor</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <p class="text-muted" th:if="${#lists.isEmpty(reporte.filas)}">No hay datos para los filtros seleccionados.</p>
+</div>
+</body>
+</html>

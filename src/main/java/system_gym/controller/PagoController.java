@@ -53,10 +53,12 @@ public class PagoController {
             RedirectAttributes redirectAttributes) {
         try {
             pago.setCliente(clienteService.buscarPorId(clienteId));
-            if (membresiaId != null) {
-                pago.setMembresia(membresiaClienteService.buscarPorId(membresiaId));
-            } else {
-                pago.setMembresia(null);
+            if (membresiaId == null) {
+                throw new IllegalArgumentException("La membresía del pago es obligatoria.");
+            }
+            pago.setMembresia(membresiaClienteService.buscarPorId(membresiaId));
+            if (pago.getFechaVencimiento() == null) {
+                pago.setFechaVencimiento(pago.getMembresia().getFechaVencimiento());
             }
             pagoService.guardar(pago);
         } catch (IllegalArgumentException | IllegalStateException e) {

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<body>
+<div th:fragment="filtros(filtro, clientes, responsables, tipoNombre)" class="row g-3">
+    <div class="col-md-3">
+        <label class="form-label" for="fechaDesde">Desde</label>
+        <input class="form-control" id="fechaDesde" type="date" th:field="*{fechaDesde}">
+    </div>
+    <div class="col-md-3">
+        <label class="form-label" for="fechaHasta">Hasta</label>
+        <input class="form-control" id="fechaHasta" type="date" th:field="*{fechaHasta}">
+    </div>
+    <div class="col-md-6" th:if="${tipoNombre != 'AUDITORIA'}">
+        <label class="form-label" for="clienteId">Cliente</label>
+        <select class="form-select" id="clienteId" th:field="*{clienteId}">
+            <option value="">Todos los clientes</option>
+            <option th:each="cliente : ${clientes}" th:value="${cliente.id}"
+                    th:text="${cliente.apellido + ', ' + cliente.nombre}"></option>
+        </select>
+    </div>
+
+    <div class="col-md-3"
+         th:if="${tipoNombre == 'MEMBRESIAS' or tipoNombre == 'INGRESOS' or tipoNombre == 'FALLAS'}">
+        <label class="form-label" for="estado">Estado</label>
+        <select class="form-select" id="estado" th:field="*{estado}">
+            <option value="" th:text="${tipoNombre == 'INGRESOS' ? 'Pagados (predeterminado)' : 'Todos'}">Todos</option>
+            <option th:if="${tipoNombre == 'MEMBRESIAS'}" value="1">Activa</option>
+            <option th:if="${tipoNombre == 'MEMBRESIAS'}" value="2">Vencida</option>
+            <option th:if="${tipoNombre == 'MEMBRESIAS'}" value="3">Congelada</option>
+            <option th:if="${tipoNombre == 'INGRESOS'}" value="1">Pendiente</option>
+            <option th:if="${tipoNombre == 'INGRESOS'}" value="2">Pagado</option>
+            <option th:if="${tipoNombre == 'INGRESOS'}" value="3">Anulado</option>
+            <option th:if="${tipoNombre == 'FALLAS'}" value="1">Abierta</option>
+            <option th:if="${tipoNombre == 'FALLAS'}" value="2">En proceso</option>
+            <option th:if="${tipoNombre == 'FALLAS'}" value="3">Resuelta</option>
+        </select>
+    </div>
+
+    <div class="col-md-3" th:if="${tipoNombre == 'INGRESOS'}">
+        <label class="form-label" for="metodoPago">Método de pago</label>
+        <select class="form-select" id="metodoPago" th:field="*{metodoPago}">
+            <option value="">Todos</option>
+            <option value="1">Efectivo</option>
+            <option value="2">Tarjeta</option>
+            <option value="3">Transferencia</option>
+        </select>
+    </div>
+
+    <div class="col-md-3" th:if="${tipoNombre == 'FALLAS'}">
+        <label class="form-label" for="prioridad">Prioridad</label>
+        <select class="form-select" id="prioridad" th:field="*{prioridad}">
+            <option value="">Todas</option>
+            <option value="1">Baja</option>
+            <option value="2">Media</option>
+            <option value="3">Alta</option>
+        </select>
+    </div>
+
+    <div class="col-md-3"
+         th:if="${tipoNombre == 'ENTRENAMIENTOS' or tipoNombre == 'EVALUACIONES' or tipoNombre == 'FALLAS'}">
+        <label class="form-label" for="responsableId"
+               th:text="${tipoNombre == 'FALLAS' ? 'Responsable' : 'Entrenador'}">Entrenador</label>
+        <select class="form-select" id="responsableId" th:field="*{responsableId}">
+            <option value="">Todos</option>
+            <option th:each="usuario : ${responsables}" th:value="${usuario.id}"
+                    th:text="${usuario.usuario}"></option>
+        </select>
+    </div>
+
+    <div class="col-md-6">
+        <label class="form-label" for="texto">Búsqueda</label>
+        <input class="form-control" id="texto" type="text" th:field="*{texto}"
+               placeholder="Nombre, documento, descripción u otro dato">
+    </div>
+</div>
+</body>
+</html>

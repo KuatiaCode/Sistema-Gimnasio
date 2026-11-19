@@ -6,7 +6,7 @@
 <main class="container">
     <h1 class="h3 mb-3" th:text="${pago.id == null ? 'Nuevo pago' : 'Editar pago'}">Pago</h1>
     <div class="alert alert-danger" role="alert" th:if="${error}" th:text="${error}"></div>
-    <!-- La membresía es opcional; el resto de datos identifica el pago. -->
+    <!-- La membresía es obligatoria; el resto de datos identifica el pago. -->
     <form class="row g-3" th:object="${pago}" th:action="@{/pagos}" method="post">
         <input type="hidden" th:field="*{id}">
         <div class="col-md-6">
@@ -18,13 +18,15 @@
             </select>
         </div>
         <div class="col-md-6">
-            <label class="form-label" for="id-membresia">Membresía (opcional)</label>
-            <select class="form-select" id="id-membresia" name="membresiaId">
-                <option value="">Sin membresía</option>
+            <label class="form-label" for="id-membresia">Membresía</label>
+            <select class="form-select" id="id-membresia" name="membresiaId" required>
+                <option value="">Seleccioná una membresía</option>
                 <option th:each="membresia : ${membresias}" th:value="${membresia.id}"
-                        th:text="${'Membresía #' + membresia.id}"
+                        th:attr="data-cliente=${membresia.cliente.id},data-vencimiento=${membresia.fechaVencimiento}"
+                        th:text="${'Membresía #' + membresia.id + ' - ' + membresia.cliente.nombre + ' ' + membresia.cliente.apellido}"
                         th:selected="${pago.membresia != null and pago.membresia.id == membresia.id}"></option>
             </select>
+            <div class="form-text">El pago siempre debe estar asociado a una membresía.</div>
         </div>
         <div class="col-md-4">
             <label class="form-label" for="estadoPago">Estado</label>
@@ -59,11 +61,17 @@
             <input class="form-control" id="fechaPago" type="datetime-local" th:field="*{fechaPago}">
             <div class="form-text">Se completa automáticamente al confirmar un pago.</div>
         </div>
+        <div class="col-md-4">
+            <label class="form-label" for="fechaVencimiento">Fecha de vencimiento</label>
+            <input class="form-control" id="fechaVencimiento" type="date" th:field="*{fechaVencimiento}" readonly>
+            <div class="form-text">Se toma de la membresía seleccionada.</div>
+        </div>
         <div class="col-12">
             <button class="btn btn-primary" type="submit">Guardar</button>
             <a class="btn btn-secondary" th:href="@{/pagos}">Cancelar</a>
         </div>
     </form>
 </main>
+<script th:src="@{/js/pago-form.js(v=1)}"></script>
 </body>
 </html>

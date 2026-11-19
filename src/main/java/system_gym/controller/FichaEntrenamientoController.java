@@ -1,8 +1,11 @@
 package system_gym.controller;
 
+import java.io.IOException;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import system_gym.model.FichaEntrenamiento;
 import system_gym.model.Usuario;
 import system_gym.service.ClienteService;
+import system_gym.service.FichaEntrenamientoPdfService;
 import system_gym.service.FichaEntrenamientoService;
 import system_gym.service.MembresiaClienteService;
 import system_gym.service.UsuarioService;
@@ -29,14 +33,17 @@ import system_gym.service.UsuarioService;
 public class FichaEntrenamientoController {
 
     private final FichaEntrenamientoService fichaEntrenamientoService;
+    private final FichaEntrenamientoPdfService fichaEntrenamientoPdfService;
     private final ClienteService clienteService;
     private final MembresiaClienteService membresiaClienteService;
     private final UsuarioService usuarioService;
 
     public FichaEntrenamientoController(FichaEntrenamientoService fichaEntrenamientoService,
+            FichaEntrenamientoPdfService fichaEntrenamientoPdfService,
             ClienteService clienteService, MembresiaClienteService membresiaClienteService,
             UsuarioService usuarioService) {
         this.fichaEntrenamientoService = fichaEntrenamientoService;
+        this.fichaEntrenamientoPdfService = fichaEntrenamientoPdfService;
         this.clienteService = clienteService;
         this.membresiaClienteService = membresiaClienteService;
         this.usuarioService = usuarioService;
@@ -91,6 +98,16 @@ public class FichaEntrenamientoController {
         model.addAttribute("ficha", fichaEntrenamientoService.buscarPorId(id));
         cargarCatalogos(model);
         return "fichas-entrenamiento/form";
+    }
+
+    @GetMapping("/{id}/pdf")
+    public void pdf(@PathVariable Integer id, HttpServletResponse response) throws IOException {
+        byte[] pdf = fichaEntrenamientoPdfService.generar(id);
+        response.setContentType("application/pdf");
+        response.setHeader("Content-Disposition",
+                "attachment; filename=\"ficha-entrenamiento-" + id + ".pdf\"");
+        response.setContentLength(pdf.length);
+        response.getOutputStream().write(pdf);
     }
 
     @PostMapping("/{id}/eliminar")

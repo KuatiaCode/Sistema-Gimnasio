@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:replace="~{fragments/head :: head('Fallas')}"></head>
+<body>
+<nav th:replace="~{fragments/nav :: nav}"></nav>
+<main class="container">
+    <div class="alert alert-success" role="alert" th:if="${mensaje}" th:text="${mensaje}"></div>
+    <div class="alert alert-danger" role="alert" th:if="${error}" th:text="${error}"></div>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="h3">Fallas técnicas</h1>
+        <div class="d-flex gap-2">
+            <a class="btn btn-outline-secondary" th:href="@{/reportes/fallas}">Reporte</a>
+            <a class="btn btn-primary" th:href="@{/fallas/nuevo}">Nueva falla</a>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped table-hover align-middle">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Fecha</th>
+                    <th>Reportado por</th>
+                    <th>Área / equipo</th>
+                    <th>Prioridad</th>
+                    <th>Estado</th>
+                    <th>Responsable</th>
+                    <th>Descripción</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="falla : ${fallas}">
+                    <td th:text="${falla.id}">1</td>
+                    <td th:text="${#temporals.format(falla.fechaReporte, 'dd/MM/yyyy HH:mm')}">Fecha</td>
+                    <td th:text="${falla.reportadoPor}">Reportado por</td>
+                    <td th:text="${falla.areaEquipo}">Área</td>
+                    <td th:text="${falla.prioridadTexto}">Media</td>
+                    <td>
+                        <span class="badge"
+                              th:classappend="${falla.estado == 3 ? 'text-bg-success' : (falla.estado == 2 ? 'text-bg-warning' : 'text-bg-danger')}"
+                              th:text="${falla.estadoTexto}">Abierta</span>
+                    </td>
+                    <td th:text="${falla.responsableAtencion != null ? falla.responsableAtencion.usuario : 'Sin asignar'}">Sin asignar</td>
+                    <td th:text="${#strings.abbreviate(falla.descripcion, 80)}">Descripción</td>
+                    <td>
+                        <a class="btn btn-sm btn-outline-primary" th:if="${esAdmin}"
+                           th:href="@{/fallas/{id}/editar(id=${falla.id})}">Editar</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <p class="text-muted" th:if="${#lists.isEmpty(fallas)}">No hay fallas registradas.</p>
+</main>
+</body>
+</html>

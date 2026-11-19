@@ -34,6 +34,22 @@ public class PagoService {
 
     @Transactional
     public Pago guardar(Pago pago) {
+        if (pago.getCliente() == null) {
+            throw new IllegalArgumentException("El cliente del pago es obligatorio.");
+        }
+        if (pago.getMembresia() == null) {
+            throw new IllegalArgumentException("La membresía del pago es obligatoria.");
+        }
+        if (pago.getMembresia().getCliente() == null
+                || !pago.getMembresia().getCliente().getId().equals(pago.getCliente().getId())) {
+            throw new IllegalArgumentException("La membresía seleccionada no pertenece al cliente.");
+        }
+        if (pago.getFechaVencimiento() == null) {
+            pago.setFechaVencimiento(pago.getMembresia().getFechaVencimiento());
+        }
+        if (pago.getFechaVencimiento() == null) {
+            throw new IllegalArgumentException("La fecha de vencimiento del pago es obligatoria.");
+        }
         if (pago.getMontoTotal() == null || pago.getMontoTotal() < 0) {
             throw new IllegalArgumentException("El monto total no puede ser negativo.");
         }

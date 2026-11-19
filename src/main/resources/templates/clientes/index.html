@@ -7,7 +7,10 @@
     <!-- Listado de clientes con acceso a edición y eliminación. -->
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h1 class="h3">Clientes</h1>
-        <a class="btn btn-primary" th:href="@{/clientes/nuevo}">Nuevo cliente</a>
+        <div class="d-flex gap-2">
+            <a class="btn btn-outline-secondary" th:href="@{/reportes/miembros}">Reporte</a>
+            <a class="btn btn-primary" th:href="@{/clientes/nuevo}">Nuevo cliente</a>
+        </div>
     </div>
     <div class="table-responsive">
         <table class="table table-striped table-hover align-middle">

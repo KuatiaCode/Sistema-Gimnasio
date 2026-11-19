@@ -7,7 +7,10 @@
     <div th:replace="~{configuracion/tabs :: tabs('auditoria')}"></div>
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h1 class="h3 mb-0">Registro de auditoría</h1>
-        <span class="text-muted" th:text="${registros.totalElements} + ' registros'"></span>
+        <div class="d-flex align-items-center gap-3">
+            <span class="text-muted" th:text="${registros.totalElements} + ' registros'"></span>
+            <a class="btn btn-outline-secondary btn-sm" th:href="@{/reportes/auditoria}">Exportar</a>
+        </div>
     </div>
     <!-- Bitácora de solo lectura; no se editan ni eliminan registros. -->
     <div class="table-responsive">

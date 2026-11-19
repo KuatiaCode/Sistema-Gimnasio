@@ -7,7 +7,10 @@
     <!-- Membresías contratadas, con cliente, planes y vigencia. -->
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h1 class="h3">Membresías</h1>
-        <a class="btn btn-primary" th:href="@{/membresias/nuevo}">Nueva membresía</a>
+        <div class="d-flex gap-2">
+            <a class="btn btn-outline-secondary" th:href="@{/reportes/membresias}">Reporte</a>
+            <a class="btn btn-primary" th:href="@{/membresias/nuevo}">Nueva membresía</a>
+        </div>
     </div>
     <div class="alert alert-danger" role="alert" th:if="${error}" th:text="${error}"></div>
     <div class="table-responsive">
@@ -36,9 +39,15 @@
                     <td th:text="${membresia.fechaInicio}">Inicio</td>
                     <td th:text="${membresia.fechaVencimiento}">Vencimiento</td>
                     <td th:text="${'Gs. ' + membresia.precioAPagar}">0</td>
-                    <td th:text="${membresia.estado == 1 ? 'Activa' : (membresia.estado == 2 ? 'Vencida' : 'Congelada')}">Activa</td>
+                    <td>
+                        <span class="badge"
+                              th:classappend="${membresia.estado == 1 ? 'text-bg-success' : (membresia.estado == 2 ? 'text-bg-danger' : (membresia.estado == 3 ? 'text-bg-warning' : 'text-bg-secondary'))}"
+                              th:text="${membresia.estadoTexto}">Activa</span>
+                    </td>
                     <td th:text="${membresia.renovacionAutomatica} ? 'Mensual' : 'No'">No</td>
                     <td>
+                        <a class="btn btn-sm btn-outline-secondary"
+                           th:href="@{/membresias/{id}/historial(id=${membresia.id})}">Historial</a>
                         <a class="btn btn-sm btn-outline-primary"
                            th:href="@{/membresias/{id}/editar(id=${membresia.id})}">Editar</a>
                         <form class="d-inline" th:action="@{/membresias/{id}/eliminar(id=${membresia.id})}"

@@ -54,7 +54,7 @@ public class MembresiaCliente {
     private LocalDate fechaVencimiento;
 
     @Column(name = "estado", nullable = false)
-    private Short estado; // 1: Activa, 2: Vencida, 3: Congelada
+    private Short estado; // 1: Activa, 2: Vencida, 3: Congelada, 4: Inactiva/Cancelada
 
     // Total histórico calculado con los precios de los planes al crear la membresía.
     @Column(name = "precio_a_pagar", nullable = false)
@@ -65,6 +65,27 @@ public class MembresiaCliente {
 
     @Column(name = "observaciones", columnDefinition = "TEXT")
     private String observaciones;
+
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @Column(name = "fecha_cancelacion")
+    private LocalDate fechaCancelacion;
+
+    @Column(name = "motivo_cancelacion", columnDefinition = "TEXT")
+    private String motivoCancelacion;
+
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @Column(name = "fecha_congelacion_inicio")
+    private LocalDate fechaCongelacionInicio;
+
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @Column(name = "fecha_congelacion_fin")
+    private LocalDate fechaCongelacionFin;
+
+    @Column(name = "motivo_congelacion", columnDefinition = "TEXT")
+    private String motivoCongelacion;
+
+    @Column(name = "dias_congelados")
+    private Integer diasCongelados = 0;
 
     public MembresiaCliente() {}
 
@@ -152,5 +173,63 @@ public class MembresiaCliente {
 
     public void setObservaciones(String observaciones) {
         this.observaciones = observaciones;
+    }
+
+    public LocalDate getFechaCancelacion() {
+        return fechaCancelacion;
+    }
+
+    public void setFechaCancelacion(LocalDate fechaCancelacion) {
+        this.fechaCancelacion = fechaCancelacion;
+    }
+
+    public String getMotivoCancelacion() {
+        return motivoCancelacion;
+    }
+
+    public void setMotivoCancelacion(String motivoCancelacion) {
+        this.motivoCancelacion = motivoCancelacion;
+    }
+
+    public LocalDate getFechaCongelacionInicio() {
+        return fechaCongelacionInicio;
+    }
+
+    public void setFechaCongelacionInicio(LocalDate fechaCongelacionInicio) {
+        this.fechaCongelacionInicio = fechaCongelacionInicio;
+    }
+
+    public LocalDate getFechaCongelacionFin() {
+        return fechaCongelacionFin;
+    }
+
+    public void setFechaCongelacionFin(LocalDate fechaCongelacionFin) {
+        this.fechaCongelacionFin = fechaCongelacionFin;
+    }
+
+    public String getMotivoCongelacion() {
+        return motivoCongelacion;
+    }
+
+    public void setMotivoCongelacion(String motivoCongelacion) {
+        this.motivoCongelacion = motivoCongelacion;
+    }
+
+    public Integer getDiasCongelados() {
+        return diasCongelados;
+    }
+
+    public void setDiasCongelados(Integer diasCongelados) {
+        this.diasCongelados = diasCongelados;
+    }
+
+    public String getEstadoTexto() {
+        return switch (estado == null ? 0 : estado) {
+            case 1 -> "Activa";
+            case 2 -> "Vencida";
+            case 3 -> "Congelada";
+            case 4 -> "Inactiva";
+            default -> "";
+        };
     }
 }
